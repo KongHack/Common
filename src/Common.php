@@ -152,7 +152,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      * @param string $default
      * @return string
      */
-    final private function calculateBase($default = '')
+    final protected function calculateBase($default = '')
     {
         $base = '';
 
