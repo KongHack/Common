@@ -62,7 +62,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
             $this->configPath = $path.$fileName;
         }
         $this->config = $this->parse_ini_file_multi($this->configPath, true);
-        if(!is_array($this->config) || count($this->config) < 1) {
+        if (!is_array($this->config) || count($this->config) < 1) {
             throw new \Exception('Config File Failed to Load: '.$this->configPath);
         }
     }
@@ -173,7 +173,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
             if ($_SERVER['HTTPS'] == "on") {
                 $sec = true;
             }
-        } elseif ($_SERVER['SERVER_POST'] == 443) {
+        } elseif ($_SERVER['SERVER_PORT'] == 443) {
             $sec = true;
         }
 
