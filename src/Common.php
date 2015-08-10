@@ -31,8 +31,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
 
         $calledClass = get_called_class();
 
-        if (!isset($instances[$calledClass]))
-        {
+        if (!isset($instances[$calledClass])) {
             $instances[$calledClass] = new $calledClass();
         }
 
@@ -50,9 +49,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      */
     protected function loadConfig()
     {
-        if($this->configPath == null) {
-
-
+        if ($this->configPath == null) {
             $fileName = 'config'.DIRECTORY_SEPARATOR.'config.ini';
             $path = dirname(__FILE__).'..'.DIRECTORY_SEPARATOR;
             $i = 0;
@@ -75,7 +72,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      */
     public function getConfig($heading)
     {
-        if($this->config == null) {
+        if ($this->config == null) {
             $this->loadConfig();
         }
         return $this->config[$heading];
@@ -87,7 +84,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      */
     public function getDatabase($instance = 'default')
     {
-        if(!isset($this->databases[$instance])) {
+        if (!isset($this->databases[$instance])) {
             $databases = $this->getConfig('database');
             $databaseArray = $databases[$instance];
 
@@ -105,8 +102,9 @@ abstract class Common implements \GCWorld\Interfaces\Common
      * @param string $instance
      * @return \Redis
      */
-    public function getCache($instance = 'default') {
-        if(!isset($this->caches[$instance])) {
+    public function getCache($instance = 'default')
+    {
+        if (!isset($this->caches[$instance])) {
             $caches = $this->getConfig('cache');
             $cacheArray = $caches[$instance];
             $cache = new \Redis();
@@ -122,7 +120,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      */
     public function getDirectory($key)
     {
-        if($this->filePaths == null) {
+        if ($this->filePaths == null) {
             $paths = $this->getConfig('paths');
             $this->filePaths = $paths['file'];
         }
@@ -133,8 +131,9 @@ abstract class Common implements \GCWorld\Interfaces\Common
      * @param $key
      * @return string
      */
-    public function getPath($key) {
-        if($this->webPaths == null) {
+    public function getPath($key)
+    {
+        if ($this->webPaths == null) {
             $paths = $this->getConfig('paths');
             $web = $paths['web'];
             $base = $this->calculateBase($web['base']);
@@ -151,7 +150,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      * @param string $default
      * @return string
      */
-    private final function calculateBase($default = '')
+    final private function calculateBase($default = '')
     {
         $base = '';
 
@@ -167,7 +166,16 @@ abstract class Common implements \GCWorld\Interfaces\Common
             $base = str_replace('www.', '', $base);
         }
 
-        return 'https://'.$base.'/';
+        $sec = false;
+        if (isset($_SERVER['HTTPS'])) {
+            if ($_SERVER['HTTPS'] == "on") {
+                $sec = true;
+            }
+        } elseif ($_SERVER['SERVER_POST'] == 443) {
+            $sec = true;
+        }
+
+        return ($sec?'https':'http').'://'.$base.'/';
     }
 
     /**
@@ -176,7 +184,8 @@ abstract class Common implements \GCWorld\Interfaces\Common
      * @param int  $scanner_mode
      * @return array
      */
-    function parse_ini_file_multi($file, $process_sections = false, $scanner_mode = INI_SCANNER_NORMAL) {
+    function parse_ini_file_multi($file, $process_sections = false, $scanner_mode = INI_SCANNER_NORMAL)
+    {
         $explode_str = '.';
         $escape_char = "'";
         // load ini file the normal way
@@ -203,8 +212,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
                         $subs = $value;
                         // unset the dotted key, we don't need it anymore
                         unset($data[$section_key][$key]);
-                    }
-                    // we have escaped the key, so we keep dots as they are
+                    } // we have escaped the key, so we keep dots as they are
                     else {
                         $new_key = trim($key, $escape_char);
                         $data[$section_key][$new_key] = $value;
