@@ -59,9 +59,11 @@ abstract class Common implements \GCWorld\Interfaces\Common
                     throw new \Exception('config.ini file not found');
                 }
             }
-            $this->config = $this->parse_ini_file_multi($path.$fileName, true);
-        } else {
-            $this->config = $this->parse_ini_file_multi($this->configPath, true);
+            $this->configPath = $path.$fileName;
+        }
+        $this->config = $this->parse_ini_file_multi($this->configPath, true);
+        if(!is_array($this->config) || count($this->config) < 1) {
+            throw new \Exception('Config File Failed to Load: '.$this->configPath);
         }
     }
 
