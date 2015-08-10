@@ -141,8 +141,8 @@ abstract class Common implements \GCWorld\Interfaces\Common
             $base = $this->calculateBase($web['base']);
             $this->webPaths = array(
                 'base'  => $base,
-                'temp'  => $base.$paths['temp'],
-                'asset_cache' => $base.$paths['asset_cache']
+                'temp'  => $base.$web['temp'],
+                'asset_cache' => $base.$web['asset_cache']
             );
         }
         return $this->webPaths[$key];
