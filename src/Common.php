@@ -126,7 +126,10 @@ abstract class Common implements \GCWorld\Interfaces\Common
             $paths = $this->getConfig('paths');
             $this->filePaths = $paths['file'];
         }
-        return $this->filePaths[$key];
+        if (isset($this->filePaths[$key])) {
+            return $this->filePaths[$key];
+        }
+        return '';
     }
 
     /**
@@ -145,7 +148,10 @@ abstract class Common implements \GCWorld\Interfaces\Common
                 'asset_cache' => $base.$web['asset_cache']
             );
         }
-        return $this->webPaths[$key];
+        if (isset($this->webPaths[$key])) {
+            return $this->webPaths[$key];
+        }
+        return '';
     }
 
     /**
