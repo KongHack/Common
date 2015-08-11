@@ -90,12 +90,14 @@ abstract class Common implements \GCWorld\Interfaces\Common
             $databases = $this->getConfig('database');
             $databaseArray = $databases[$instance];
 
-            $this->databases[$instance] = new Database(
+            $db = new Database(
                 'mysql:host='.$databaseArray['host'].';dbname='.$databaseArray['name'],
                 $databaseArray['user'],
                 $databaseArray['pass'],
                 array(Database::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8')
             );
+            $db->setDefaults();
+            $this->databases[$instance] = $db;
         }
         return $this->databases[$instance];
     }
