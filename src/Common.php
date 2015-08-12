@@ -23,7 +23,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
     }
 
     /**
-     * @return mixed
+     * @return $this
      */
     final public static function getInstance()
     {
