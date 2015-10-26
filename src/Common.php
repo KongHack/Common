@@ -108,9 +108,22 @@ abstract class Common implements \GCWorld\Interfaces\Common
      */
     public function getCache($instance = 'default')
     {
+        if (!class_exists('Redis')) {
+            return false;
+        }
+
         if (!isset($this->caches[$instance])) {
             $caches = $this->getConfig('cache');
+            if (!is_array($caches)) {
+                return false;
+            }
+            if (!array_key_exists($instance, $caches)) {
+                return false;
+            }
             $cacheArray = $caches[$instance];
+            if (!is_array($cacheArray)) {
+                return false;
+            }
             $cache = new \Redis();
             $cache->connect($cacheArray['host']);
             $this->caches[$instance] = $cache;
