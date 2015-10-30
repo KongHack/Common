@@ -86,6 +86,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      */
     public function getDatabase($instance = 'default')
     {
+        $instance = (empty($instance)?'default':$instance);
         if (!isset($this->databases[$instance])) {
             $databases = $this->getConfig('database');
             $databaseArray = $databases[$instance];
@@ -108,6 +109,8 @@ abstract class Common implements \GCWorld\Interfaces\Common
      */
     public function getCache($instance = 'default')
     {
+        $instance = (empty($instance)?'default':$instance);
+
         if (!class_exists('Redis')) {
             return false;
         }
