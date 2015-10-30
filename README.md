@@ -7,7 +7,7 @@ A default common singleton class built for extending.
   - Simple Redis Handler
 
 ### Version
-1.0.8
+1.1.0
 
 ### Additional Information
 
