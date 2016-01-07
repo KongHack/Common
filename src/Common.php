@@ -61,7 +61,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
             }
             $this->configPath = $path.$fileName;
         }
-        $this->config = $this->parse_ini_file_multi($this->configPath, true);
+        $this->config = self::parse_ini_file_multi($this->configPath, true);
         if (!is_array($this->config) || count($this->config) < 1) {
             throw new \Exception('Config File Failed to Load: '.$this->configPath);
         }
@@ -210,7 +210,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      * @param int  $scanner_mode
      * @return array
      */
-    function parse_ini_file_multi($file, $process_sections = false, $scanner_mode = INI_SCANNER_NORMAL)
+    public static function parse_ini_file_multi($file, $process_sections = false, $scanner_mode = INI_SCANNER_NORMAL)
     {
         $explode_str = '.';
         $escape_char = "'";
