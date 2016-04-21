@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "gcworld/database",
-            "version": "1.2.0.1",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://gitlab.konghack.com/GCWorld/Database.git",
-                "reference": "c0bf02a600f0a385e7fb9682d747d73ff821ea01"
+                "reference": "16746142da8358c0d3d0315431e4ca4bde17130c"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://toran.konghack.com/repo/private/dists/gcworld/database/1.2.0.1/c0bf02a600f0a385e7fb9682d747d73ff821ea01.zip",
-                "reference": "c0bf02a600f0a385e7fb9682d747d73ff821ea01",
+                "url": "http://toran.konghack.com/repo/private/dists/gcworld/database/1.3.0.0/16746142da8358c0d3d0315431e4ca4bde17130c.zip",
+                "reference": "16746142da8358c0d3d0315431e4ca4bde17130c",
                 "shasum": null,
                 "mirrors": [
                     {
@@ -47,7 +47,7 @@
                 }
             ],
             "description": "GCWorld Industries Database",
-            "time": "2015-09-29 14:10:08"
+            "time": "2016-03-30 14:51:26"
         },
         {
             "name": "gcworld/interfaces",
