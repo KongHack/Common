@@ -92,7 +92,8 @@ abstract class Common implements \GCWorld\Interfaces\Common
             $databaseArray = $databases[$instance];
 
             $db = new Database(
-                'mysql:host='.$databaseArray['host'].';dbname='.$databaseArray['name'],
+                'mysql:host='.$databaseArray['host'].';dbname='.$databaseArray['name'].
+                    (isset($databaseArray['port'])?';port='.$databaseArray['port']:''),
                 $databaseArray['user'],
                 $databaseArray['pass'],
                 array(Database::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8')
