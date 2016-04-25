@@ -179,6 +179,10 @@ abstract class Common implements \GCWorld\Interfaces\Common
      */
     final protected function calculateBase($default = '')
     {
+        if($default != '') {
+            return $default;
+        }
+
         $base = '';
 
         // Get domain name/path so we can set up a base url
