@@ -9,7 +9,7 @@
   ],
   "require": {
     "gcworld/interfaces": ">=2.0.3",
-    "gcworld/database":"dev-master",
+    "gcworld/database":"~2",
     "php": ">=5.6"
   },
   "autoload": {

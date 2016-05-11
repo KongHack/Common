@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5deabb5acf2d2ba4a63192e7d9e13340",
-    "content-hash": "6160d90c0a23cf686fb4a8879d5f7083",
+    "hash": "7b159c1ff7314ffb27d8c3efd78f5ce9",
+    "content-hash": "a0fcb96ef22e7bfcd1aad6b2f11e989f",
     "packages": [
         {
             "name": "composer/composer",
@@ -307,11 +307,11 @@
         },
         {
             "name": "gcworld/database",
-            "version": "dev-master",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://gitlab.konghack.com/GCWorld/Database.git",
-                "reference": "4b7a55f2ef4eb84a1ce5e770a058693f7ee94236"
+                "reference": "8fb2fc140418a290e6543118ccd6bebdd8fe8813"
             },
             "require": {
                 "composer/composer": "1.0.*@dev",
@@ -336,7 +336,7 @@
                 }
             ],
             "description": "GCWorld Industries Database",
-            "time": "2016-05-11 13:36:22"
+            "time": "2016-05-11 14:36:37"
         },
         {
             "name": "gcworld/interfaces",
@@ -853,9 +853,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "gcworld/database": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
