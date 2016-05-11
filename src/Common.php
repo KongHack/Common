@@ -1,6 +1,7 @@
 <?php
 namespace GCWorld\Common;
 
+use GCWorld\Database\Controller;
 use GCWorld\Database\Database;
 
 abstract class Common implements \GCWorld\Interfaces\Common
@@ -12,8 +13,8 @@ abstract class Common implements \GCWorld\Interfaces\Common
     protected $configPath = null;
 
     protected $config    = null;
-    protected $caches    = array();
-    protected $databases = array();
+    protected $caches    = [];
+    protected $databases = [];
     protected $filePaths = null;
     protected $webPaths  = null;
 
@@ -27,7 +28,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      */
     final public static function getInstance()
     {
-        static $instances = array();
+        static $instances = [];
 
         $calledClass = get_called_class();
 
@@ -83,24 +84,34 @@ abstract class Common implements \GCWorld\Interfaces\Common
 
     /**
      * @param string $instance
-     * @return \GCWorld\Database\Database
+     * @return Database
+     * @throws \Exception
      */
     public function getDatabase($instance = 'default')
     {
         $instance = (empty($instance) ? 'default' : $instance);
+
         if (!isset($this->databases[$instance])) {
             $databases     = $this->getConfig('database');
+            if(!array_key_exists($instance,$databases)) {
+                throw new \Exception('DB Config Not Found!');
+            }
             $databaseArray = $databases[$instance];
-
-            $db = new Database(
-                'mysql:host='.$databaseArray['host'].';dbname='.$databaseArray['name'].
-                (isset($databaseArray['port']) ? ';port='.$databaseArray['port'] : ''),
-                $databaseArray['user'],
-                $databaseArray['pass'],
-                array(Database::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8')
-            );
-            $db->setDefaults();
-            $this->databases[$instance] = $db;
+            // Implement controller!
+            if(isset($databaseArray['controller']) && $databaseArray['controller']) {
+                $controller = Controller::getInstance($instance);
+                $this->databases[$instance] = $controller->getDatabase(Controller::IDENTIFIER_READ);
+            } else {
+                $db = new Database(
+                    'mysql:host='.$databaseArray['host'].';dbname='.$databaseArray['name'].
+                    (isset($databaseArray['port']) ? ';port='.$databaseArray['port'] : ''),
+                    $databaseArray['user'],
+                    $databaseArray['pass'],
+                    [Database::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8']
+                );
+                $db->setDefaults();
+                $this->databases[$instance] = $db;
+            }
         }
 
         return $this->databases[$instance];
@@ -165,11 +176,11 @@ abstract class Common implements \GCWorld\Interfaces\Common
             $paths          = $this->getConfig('paths');
             $web            = $paths['web'];
             $base           = $this->calculateBase($web['base']);
-            $this->webPaths = array(
+            $this->webPaths = [
                 'base'        => $base,
                 'temp'        => $base.$web['temp'],
                 'asset_cache' => $base.$web['asset_cache']
-            );
+            ];
         }
         if (isset($this->webPaths[$key])) {
             return $this->webPaths[$key];
@@ -223,7 +234,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
         // load ini file the normal way
         $data = parse_ini_file($file, $process_sections, $scanner_mode);
         if (!$process_sections) {
-            $data = array($data);
+            $data = [$data];
         }
         foreach ($data as $section_key => $section) {
             // loop inside the section
