@@ -11,11 +11,11 @@ abstract class Common implements \GCWorld\Interfaces\Common
      */
     protected $configPath = null;
 
-    protected $config     = null;
-    protected $caches     = array();
-    protected $databases  = array();
-    protected $filePaths  = null;
-    protected $webPaths   = null;
+    protected $config    = null;
+    protected $caches    = array();
+    protected $databases = array();
+    protected $filePaths = null;
+    protected $webPaths  = null;
 
 
     protected function __construct()
@@ -51,8 +51,8 @@ abstract class Common implements \GCWorld\Interfaces\Common
     {
         if ($this->configPath == null) {
             $fileName = 'config'.DIRECTORY_SEPARATOR.'config.ini';
-            $path = dirname(__FILE__).'..'.DIRECTORY_SEPARATOR;
-            $i = 0;
+            $path     = dirname(__FILE__).'..'.DIRECTORY_SEPARATOR;
+            $i        = 0;
             while (!file_exists($path.$fileName)) {
                 $path .= '..'.DIRECTORY_SEPARATOR;
                 if ($i > 6) {
@@ -77,6 +77,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
         if ($this->config == null) {
             $this->loadConfig();
         }
+
         return $this->config[$heading];
     }
 
@@ -86,14 +87,14 @@ abstract class Common implements \GCWorld\Interfaces\Common
      */
     public function getDatabase($instance = 'default')
     {
-        $instance = (empty($instance)?'default':$instance);
+        $instance = (empty($instance) ? 'default' : $instance);
         if (!isset($this->databases[$instance])) {
-            $databases = $this->getConfig('database');
+            $databases     = $this->getConfig('database');
             $databaseArray = $databases[$instance];
 
             $db = new Database(
                 'mysql:host='.$databaseArray['host'].';dbname='.$databaseArray['name'].
-                    (isset($databaseArray['port'])?';port='.$databaseArray['port']:''),
+                (isset($databaseArray['port']) ? ';port='.$databaseArray['port'] : ''),
                 $databaseArray['user'],
                 $databaseArray['pass'],
                 array(Database::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8')
@@ -101,6 +102,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
             $db->setDefaults();
             $this->databases[$instance] = $db;
         }
+
         return $this->databases[$instance];
     }
 
@@ -110,7 +112,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      */
     public function getCache($instance = 'default')
     {
-        $instance = (empty($instance)?'default':$instance);
+        $instance = (empty($instance) ? 'default' : $instance);
 
         if (!class_exists('Redis')) {
             return false;
@@ -132,6 +134,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
             $cache->connect($cacheArray['host']);
             $this->caches[$instance] = $cache;
         }
+
         return $this->caches[$instance];
     }
 
@@ -142,12 +145,13 @@ abstract class Common implements \GCWorld\Interfaces\Common
     public function getDirectory($key)
     {
         if ($this->filePaths == null) {
-            $paths = $this->getConfig('paths');
+            $paths           = $this->getConfig('paths');
             $this->filePaths = $paths['file'];
         }
         if (isset($this->filePaths[$key])) {
             return $this->filePaths[$key];
         }
+
         return '';
     }
 
@@ -158,35 +162,32 @@ abstract class Common implements \GCWorld\Interfaces\Common
     public function getPath($key)
     {
         if ($this->webPaths == null) {
-            $paths = $this->getConfig('paths');
-            $web = $paths['web'];
-            $base = $this->calculateBase($web['base']);
+            $paths          = $this->getConfig('paths');
+            $web            = $paths['web'];
+            $base           = $this->calculateBase($web['base']);
             $this->webPaths = array(
-                'base'  => $base,
-                'temp'  => $base.$web['temp'],
+                'base'        => $base,
+                'temp'        => $base.$web['temp'],
                 'asset_cache' => $base.$web['asset_cache']
             );
         }
         if (isset($this->webPaths[$key])) {
             return $this->webPaths[$key];
         }
+
         return '';
     }
 
     /**
+     * Note: This was designed to be dynamic.
+     * It should ignore the default unless it's being ran via cli or if HTTP_HOST is not being set
      * @param string $default
      * @return string
      */
     final protected function calculateBase($default = '')
     {
-        if($default != '') {
-            return $default;
-        }
-
-        $base = '';
-
         // Get domain name/path so we can set up a base url
-        if (isset($_SERVER['HTTP_HOST'])) {
+        if (isset($_SERVER['HTTP_HOST']) && php_sapi_name() != 'cli') {
             $base = $_SERVER['HTTP_HOST'];
         } else {
             return $default;
@@ -206,7 +207,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
             $sec = true;
         }
 
-        return ($sec?'https':'http').'://'.$base.'/';
+        return ($sec ? 'https' : 'http').'://'.$base.'/';
     }
 
     /**
@@ -232,7 +233,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
                         // key has a dot. Explode on it, then parse each sub key
                         // and set value at the right place thanks to references
                         $sub_keys = explode($explode_str, $key);
-                        $subs =& $data[$section_key];
+                        $subs     =& $data[$section_key];
                         foreach ($sub_keys as $sub_key) {
                             if (!isset($subs[$sub_key])) {
                                 $subs[$sub_key] = [];
@@ -245,7 +246,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
                         unset($data[$section_key][$key]);
                     } // we have escaped the key, so we keep dots as they are
                     else {
-                        $new_key = trim($key, $escape_char);
+                        $new_key                      = trim($key, $escape_char);
                         $data[$section_key][$new_key] = $value;
                         unset($data[$section_key][$key]);
                     }
@@ -255,6 +256,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
         if (!$process_sections) {
             $data = $data[0];
         }
+
         return $data;
     }
 }
