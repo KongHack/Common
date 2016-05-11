@@ -307,11 +307,11 @@
         },
         {
             "name": "gcworld/database",
-            "version": "2.0.0",
+            "version": "2.0.0.1",
             "source": {
                 "type": "git",
                 "url": "https://gitlab.konghack.com/GCWorld/Database.git",
-                "reference": "8fb2fc140418a290e6543118ccd6bebdd8fe8813"
+                "reference": "da21bebd34ebd2575058593735efb813b1f6b7d0"
             },
             "require": {
                 "composer/composer": "1.0.*@dev",
@@ -336,7 +336,7 @@
                 }
             ],
             "description": "GCWorld Industries Database",
-            "time": "2016-05-11 14:36:37"
+            "time": "2016-05-11 14:42:13"
         },
         {
             "name": "gcworld/interfaces",
