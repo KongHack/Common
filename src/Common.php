@@ -92,14 +92,14 @@ abstract class Common implements \GCWorld\Interfaces\Common
         $instance = (empty($instance) ? 'default' : $instance);
 
         if (!isset($this->databases[$instance])) {
-            $databases     = $this->getConfig('database');
-            if(!array_key_exists($instance,$databases)) {
+            $databases = $this->getConfig('database');
+            if (!array_key_exists($instance, $databases)) {
                 throw new \Exception('DB Config Not Found!');
             }
             $databaseArray = $databases[$instance];
             // Implement controller!
-            if(isset($databaseArray['controller']) && $databaseArray['controller']) {
-                $controller = Controller::getInstance($instance);
+            if (isset($databaseArray['controller']) && $databaseArray['controller']) {
+                $controller                 = Controller::getInstance($instance);
                 $this->databases[$instance] = $controller->getDatabase(Controller::IDENTIFIER_READ);
             } else {
                 $db = new Database(
@@ -143,6 +143,10 @@ abstract class Common implements \GCWorld\Interfaces\Common
             }
             $cache = new \Redis();
             $cache->connect($cacheArray['host']);
+            if (array_key_exists('auth', $cacheArray)) {
+                $cache->auth($cacheArray['auth']);
+            }
+
             $this->caches[$instance] = $cache;
         }
 
