@@ -119,7 +119,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
 
     /**
      * @param string $instance
-     * @return \Redis
+     * @return \Redis|bool
      */
     public function getCache($instance = 'default')
     {
@@ -151,6 +151,25 @@ abstract class Common implements \GCWorld\Interfaces\Common
         }
 
         return $this->caches[$instance];
+    }
+
+    public function closeDatabase($instance = 'default')
+    {
+        $instance = (empty($instance) ? 'default' : $instance);
+
+        if (!isset($this->databases[$instance])) {
+            return true;
+        }
+
+        $db    = $this->getDatabase($instance);
+        if($db->getController() !== null) {
+            $db->getController()->disconnectAll();
+        } else {
+            $db->disconnect();
+        }
+
+
+        return true;
     }
 
     /**
