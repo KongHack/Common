@@ -6,10 +6,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.1.1](https://gitlab.konghack.com/GCWorld/Common/compare/2.1.0...2.1.1)
+ - @GameCharmer fix some crazy merge conflicts
+
+
 ## [2.1.0](https://gitlab.konghack.com/GCWorld/Common/compare/2.0.2...2.1.0)
  - @GameCharmer adjusted doc block, added closeDatabase function
 
 
+## [2.0.3](https://gitlab.konghack.com/GCWorld/Common/compare/2.0.2...2.0.3)
+ - @GameCharmer Composer Update
+
+
 ## [2.0.2](https://gitlab.konghack.com/GCWorld/Common/compare/2.0.1...2.0.2)
- - @gamecharmer Started ChangeLog
- - @gamecharmer Added Auth support for redis
+ - @GameCharmer Started ChangeLog
+ - @GameCharmer Added Auth support for redis
