@@ -168,6 +168,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
             $db->disconnect();
         }
 
+        unset($this->databases[$instance]);
 
         return true;
     }
