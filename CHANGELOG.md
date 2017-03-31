@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.1.3](https://gitlab.konghack.com/GCWorld/Common/compare/2.1.2...2.1.3)
+ - @GameCharmer dropped 1 function call in the disconnect database method
+
+
 ## [2.1.2](https://gitlab.konghack.com/GCWorld/Common/compare/2.1.1...2.1.2)
  - @GameCharmer shit, forgot the unset!
 

@@ -161,7 +161,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
             return true;
         }
 
-        $db    = $this->getDatabase($instance);
+        $db    = $this->databases[$instance];
         if($db->getController() !== null) {
             $db->getController()->disconnectAll();
         } else {
