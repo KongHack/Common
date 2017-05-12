@@ -4,6 +4,10 @@ namespace GCWorld\Common;
 use GCWorld\Database\Controller;
 use GCWorld\Database\Database;
 
+/**
+ * Class Common
+ * @package GCWorld\Common
+ */
 abstract class Common implements \GCWorld\Interfaces\Common
 {
     /**
@@ -18,13 +22,15 @@ abstract class Common implements \GCWorld\Interfaces\Common
     protected $filePaths = null;
     protected $webPaths  = null;
 
-
+    /**
+     * Common constructor.
+     */
     protected function __construct()
     {
     }
 
     /**
-     * @return $this
+     * @return self
      */
     final public static function getInstance()
     {
@@ -39,6 +45,9 @@ abstract class Common implements \GCWorld\Interfaces\Common
         return $instances[$calledClass];
     }
 
+    /**
+     * @return void
+     */
     final private function __clone()
     {
     }
@@ -47,18 +56,20 @@ abstract class Common implements \GCWorld\Interfaces\Common
      * Finds and loads the config.ini file.
      * Please replace with direct path to your config file to prevent searching
      * @throws \Exception
+     * @return void
      */
     protected function loadConfig()
     {
         if ($this->configPath == null) {
             $fileName = 'config'.DIRECTORY_SEPARATOR.'config.ini';
             $path     = dirname(__FILE__).'..'.DIRECTORY_SEPARATOR;
-            $i        = 0;
+            $inc      = 0;
             while (!file_exists($path.$fileName)) {
                 $path .= '..'.DIRECTORY_SEPARATOR;
-                if ($i > 6) {
+                if ($inc > 12) {
                     throw new \Exception('config.ini file not found');
                 }
+                ++$inc;
             }
             $this->configPath = $path.$fileName;
         }
@@ -69,17 +80,19 @@ abstract class Common implements \GCWorld\Interfaces\Common
     }
 
     /**
-     * @param $heading
+     * @param string $heading
      * @return array
      * @throws \Exception
      */
-    public function getConfig($heading)
+    public function getConfig(string $heading)
     {
         if ($this->config == null) {
             $this->loadConfig();
         }
-
-        return $this->config[$heading];
+        if (array_key_exists($heading, $this->config)) {
+            return $this->config[$heading];
+        }
+        return [];
     }
 
     /**
@@ -87,7 +100,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      * @return Database
      * @throws \Exception
      */
-    public function getDatabase($instance = 'default')
+    public function getDatabase(string $instance = 'default')
     {
         $instance = (empty($instance) ? 'default' : $instance);
 
@@ -102,15 +115,15 @@ abstract class Common implements \GCWorld\Interfaces\Common
                 $controller                 = Controller::getInstance($instance);
                 $this->databases[$instance] = $controller->getDatabase(Controller::IDENTIFIER_READ);
             } else {
-                $db = new Database(
+                $database = new Database(
                     'mysql:host='.$databaseArray['host'].';dbname='.$databaseArray['name'].
                     (isset($databaseArray['port']) ? ';port='.$databaseArray['port'] : ''),
                     $databaseArray['user'],
                     $databaseArray['pass'],
                     [Database::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8']
                 );
-                $db->setDefaults();
-                $this->databases[$instance] = $db;
+                $database->setDefaults();
+                $this->databases[$instance] = $database;
             }
         }
 
@@ -121,7 +134,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      * @param string $instance
      * @return \Redis|bool
      */
-    public function getCache($instance = 'default')
+    public function getCache(string $instance = 'default')
     {
         $instance = (empty($instance) ? 'default' : $instance);
 
@@ -153,7 +166,11 @@ abstract class Common implements \GCWorld\Interfaces\Common
         return $this->caches[$instance];
     }
 
-    public function closeDatabase($instance = 'default')
+    /**
+     * @param string $instance
+     * @return bool
+     */
+    public function closeDatabase(string $instance = 'default')
     {
         $instance = (empty($instance) ? 'default' : $instance);
 
@@ -161,11 +178,11 @@ abstract class Common implements \GCWorld\Interfaces\Common
             return true;
         }
 
-        $db    = $this->databases[$instance];
-        if($db->getController() !== null) {
-            $db->getController()->disconnectAll();
+        $database = $this->databases[$instance];
+        if ($database->getController() !== null) {
+            $database->getController()->disconnectAll();
         } else {
-            $db->disconnect();
+            $database->disconnect();
         }
 
         unset($this->databases[$instance]);
@@ -174,10 +191,10 @@ abstract class Common implements \GCWorld\Interfaces\Common
     }
 
     /**
-     * @param $key
+     * @param string $key
      * @return string
      */
-    public function getDirectory($key)
+    public function getDirectory(string $key)
     {
         if ($this->filePaths == null) {
             $paths           = $this->getConfig('paths');
@@ -191,10 +208,10 @@ abstract class Common implements \GCWorld\Interfaces\Common
     }
 
     /**
-     * @param $key
+     * @param string $key
      * @return string
      */
-    public function getPath($key)
+    public function getPath(string $key)
     {
         if ($this->webPaths == null) {
             $paths          = $this->getConfig('paths');
@@ -219,7 +236,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
      * @param string $default
      * @return string
      */
-    final protected function calculateBase($default = '')
+    final protected function calculateBase(string $default = '')
     {
         // Get domain name/path so we can set up a base url
         if (isset($_SERVER['HTTP_HOST']) && php_sapi_name() != 'cli') {
@@ -246,12 +263,12 @@ abstract class Common implements \GCWorld\Interfaces\Common
     }
 
     /**
-     * @param      $file
-     * @param bool $process_sections
-     * @param int  $scanner_mode
+     * @param string $file
+     * @param bool   $process_sections
+     * @param int    $scanner_mode
      * @return array
      */
-    public static function parse_ini_file_multi($file, $process_sections = false, $scanner_mode = INI_SCANNER_NORMAL)
+    public static function parse_ini_file_multi(string $file, bool $process_sections = false, int $scanner_mode = INI_SCANNER_NORMAL)
     {
         $explode_str = '.';
         $escape_char = "'";
@@ -279,8 +296,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
                         $subs = $value;
                         // unset the dotted key, we don't need it anymore
                         unset($data[$section_key][$key]);
-                    } // we have escaped the key, so we keep dots as they are
-                    else {
+                    } else {
                         $new_key                      = trim($key, $escape_char);
                         $data[$section_key][$new_key] = $value;
                         unset($data[$section_key][$key]);

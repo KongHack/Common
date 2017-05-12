@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://gitlab.konghack.com/GCWorld/Common)
 
+ - @GameCharmer Implement 7.1 features, add clean code standards
 
 
 ## [2.1.3](https://gitlab.konghack.com/GCWorld/Common/compare/2.1.2...2.1.3)
