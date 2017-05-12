@@ -30,7 +30,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
     }
 
     /**
-     * @return self
+     * @return $this
      */
     final public static function getInstance()
     {
