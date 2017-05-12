@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.2.2](https://gitlab.konghack.com/GCWorld/Common/compare/2.2.1...2.2.2)
+ - @GameCharmer adjustment to doc block that destroyed phpstorm
+
+
 ## [2.2.1](https://gitlab.konghack.com/GCWorld/Common/compare/2.2.0...2.2.1)
  - @GameCharmer Composer Update, switch a couple to mixed
 
