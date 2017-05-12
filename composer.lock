@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a0f6fffa16f034a0cb270a24a85589d2",
+    "content-hash": "ccabe5219425fb1168babb3b7c477d9a",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -381,22 +381,22 @@
         },
         {
             "name": "gcworld/database",
-            "version": "2.3.0",
+            "version": "2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KongHack/Database.git",
-                "reference": "52500c291e77b8cf85e581edcb851c740bcf744a"
+                "reference": "eae5c50ed5b1d7384d6c4c05ff25f078ddf22ce3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KongHack/Database/zipball/52500c291e77b8cf85e581edcb851c740bcf744a",
-                "reference": "52500c291e77b8cf85e581edcb851c740bcf744a",
+                "url": "https://api.github.com/repos/KongHack/Database/zipball/eae5c50ed5b1d7384d6c4c05ff25f078ddf22ce3",
+                "reference": "eae5c50ed5b1d7384d6c4c05ff25f078ddf22ce3",
                 "shasum": ""
             },
             "require": {
                 "composer/composer": "^1.1",
                 "composer/installers": "^1.0",
-                "gcworld/interfaces": ">=3.1",
+                "gcworld/interfaces": ">=3.1.1",
                 "php": ">=7.1"
             },
             "require-dev": {
@@ -421,20 +421,20 @@
                 }
             ],
             "description": "GCWorld Industries Database",
-            "time": "2017-05-12T14:15:35+00:00"
+            "time": "2017-05-12T14:40:06+00:00"
         },
         {
             "name": "gcworld/interfaces",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KongHack/Interfaces.git",
-                "reference": "fc3dfa5d1271bbd10023931acb35179879e9ddf3"
+                "reference": "e5a5a91b4aeea02bd7c981385d2dce6597609102"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KongHack/Interfaces/zipball/fc3dfa5d1271bbd10023931acb35179879e9ddf3",
-                "reference": "fc3dfa5d1271bbd10023931acb35179879e9ddf3",
+                "url": "https://api.github.com/repos/KongHack/Interfaces/zipball/e5a5a91b4aeea02bd7c981385d2dce6597609102",
+                "reference": "e5a5a91b4aeea02bd7c981385d2dce6597609102",
                 "shasum": ""
             },
             "require": {
@@ -462,7 +462,7 @@
                 }
             ],
             "description": "GCWorld Industries Interfaces",
-            "time": "2017-05-12T13:56:55+00:00"
+            "time": "2017-05-12T14:35:51+00:00"
         },
         {
             "name": "justinrainbow/json-schema",

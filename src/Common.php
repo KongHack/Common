@@ -96,11 +96,11 @@ abstract class Common implements \GCWorld\Interfaces\Common
     }
 
     /**
-     * @param string $instance
+     * @param mixed $instance
      * @return Database
      * @throws \Exception
      */
-    public function getDatabase(string $instance = 'default')
+    public function getDatabase($instance = 'default')
     {
         $instance = (empty($instance) ? 'default' : $instance);
 
@@ -131,10 +131,10 @@ abstract class Common implements \GCWorld\Interfaces\Common
     }
 
     /**
-     * @param string $instance
+     * @param mixed $instance
      * @return \Redis|bool
      */
-    public function getCache(string $instance = 'default')
+    public function getCache($instance = 'default')
     {
         $instance = (empty($instance) ? 'default' : $instance);
 

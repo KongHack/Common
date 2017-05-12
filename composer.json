@@ -9,8 +9,8 @@
   ],
   "require": {
     "php": ">=7.1",
-    "gcworld/interfaces": ">=3.1",
-    "gcworld/database":"~2.3"
+    "gcworld/interfaces": ">=3.1.1",
+    "gcworld/database":"^2.3.2"
   },
   "require-dev": {
     "gcworld/code_sniffer_contrib": "^1.0",

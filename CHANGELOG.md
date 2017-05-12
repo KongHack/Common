@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+
+## [2.2.1](https://gitlab.konghack.com/GCWorld/Common/compare/2.2.0...2.2.1)
+ - @GameCharmer Composer Update, switch a couple to mixed
+
+
 ## [2.2.0](https://gitlab.konghack.com/GCWorld/Common/compare/2.1.3...2.2.0)
  - @GameCharmer Implement 7.1 features, add clean code standards
 
