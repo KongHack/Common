@@ -7,6 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.3.1.1](https://github.com/KongHack/Common/releases/tag/2.3.1.1)
+ - @GameCharmer resolve issue with config path (pt 2)
+
 ## [2.3.1](https://github.com/KongHack/Common/releases/tag/2.3.1)
  - @GameCharmer resolve issue with config path
 
