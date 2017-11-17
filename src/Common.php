@@ -63,8 +63,8 @@ abstract class Common implements \GCWorld\Interfaces\Common
     {
         if ($this->configPath == null) {
             // Step 1, check for our yml file.  If found, awesome
-            $basePath = dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR;
-            $fileName = 'config.yml';
+            $basePath = dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
+            $fileName = 'config'.DIRECTORY_SEPARATOR.'config.yml';
             $inc      = 0;
             $path     = $basePath;
             while(!file_exists($path.$fileName) && $inc < 12) {
@@ -77,7 +77,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
                 return;
             }
 
-            $fileName = 'config.ini';
+            $fileName = 'config'.DIRECTORY_SEPARATOR.'config.ini';
             $path     = $basePath;
             $inc      = 0;
             while (!file_exists($path.$fileName)) {
