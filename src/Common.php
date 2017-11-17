@@ -3,12 +3,13 @@ namespace GCWorld\Common;
 
 use GCWorld\Database\Controller;
 use GCWorld\Database\Database;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Common
  * @package GCWorld\Common
  */
-abstract class Common implements \GCWorld\Interfaces\Common
+ class Common implements \GCWorld\Interfaces\Common
 {
     /**
      * Replace this in your extension to improve performance.
@@ -53,7 +54,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
     }
 
     /**
-     * Finds and loads the config.ini file.
+     * Finds and loads the config file.  Will also convert from ini to yml
      * Please replace with direct path to your config file to prevent searching
      * @throws \Exception
      * @return void
@@ -61,8 +62,23 @@ abstract class Common implements \GCWorld\Interfaces\Common
     protected function loadConfig()
     {
         if ($this->configPath == null) {
-            $fileName = 'config'.DIRECTORY_SEPARATOR.'config.ini';
-            $path     = dirname(__FILE__).'..'.DIRECTORY_SEPARATOR;
+            // Step 1, check for our yml file.  If found, awesome
+            $basePath = dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR;
+            $fileName = 'config.yml';
+            $inc      = 0;
+            $path     = $basePath;
+            while(!file_exists($path.$fileName) && $inc < 12) {
+                $path .= '..'.DIRECTORY_SEPARATOR;
+                ++$inc;
+            }
+            if(file_exists($path.$fileName)) {
+                $this->configPath = $path.$fileName;
+                $this->config     = Yaml::parse(file_get_contents($this->configPath));
+                return;
+            }
+
+            $fileName = 'config.ini';
+            $path     = $basePath;
             $inc      = 0;
             while (!file_exists($path.$fileName)) {
                 $path .= '..'.DIRECTORY_SEPARATOR;
@@ -72,10 +88,9 @@ abstract class Common implements \GCWorld\Interfaces\Common
                 ++$inc;
             }
             $this->configPath = $path.$fileName;
-        }
-        $this->config = self::parse_ini_file_multi($this->configPath, true);
-        if (!is_array($this->config) || count($this->config) < 1) {
-            throw new \Exception('Config File Failed to Load: '.$this->configPath);
+            $this->config = self::parse_ini_file_multi($this->configPath, true);
+            $config = Yaml::dump($this->config, 3);
+            file_put_contents(str_replace('.ini','.yml',$this->configPath), $config);
         }
     }
 
@@ -88,6 +103,9 @@ abstract class Common implements \GCWorld\Interfaces\Common
     {
         if ($this->config == null) {
             $this->loadConfig();
+            if (!is_array($this->config) || count($this->config) < 1) {
+                throw new \Exception('Config File Failed to Load: '.$this->configPath);
+            }
         }
         if (array_key_exists($heading, $this->config)) {
             return $this->config[$heading];
@@ -263,6 +281,8 @@ abstract class Common implements \GCWorld\Interfaces\Common
     }
 
     /**
+     * NOTE: Will be removed in a future release
+     *
      * @param string $file
      * @param bool   $process_sections
      * @param int    $scanner_mode

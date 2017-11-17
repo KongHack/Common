@@ -1,3 +1,5 @@
 .idea/*
 src/Generated/*
 vendor/*
+config/config.ini
+config/config.yml
