@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Yaml;
  * Class Common
  * @package GCWorld\Common
  */
- class Common implements \GCWorld\Interfaces\Common
+abstract class Common implements \GCWorld\Interfaces\Common
 {
     /**
      * Replace this in your extension to improve performance.
@@ -91,7 +91,17 @@ use Symfony\Component\Yaml\Yaml;
             $this->config = self::parse_ini_file_multi($this->configPath, true);
             $config = Yaml::dump($this->config, 3);
             file_put_contents(str_replace('.ini','.yml',$this->configPath), $config);
+            return;
         }
+
+        if(substr($this->configPath,-3) == 'ini') {
+            $this->config = self::parse_ini_file_multi($this->configPath, true);
+            $config = Yaml::dump($this->config, 3);
+            file_put_contents(str_replace('.ini','.yml',$this->configPath), $config);
+            return;
+        }
+
+        $this->config = Yaml::parse(file_get_contents($this->configPath));
     }
 
     /**

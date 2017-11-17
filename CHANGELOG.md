@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.3.1](https://github.com/KongHack/Common/releases/tag/2.3.1)
+ - @GameCharmer resolve issue with config path
+
+
 ## [2.3.0](https://github.com/KongHack/Common/releases/tag/2.3.0)
  - @GameCharmer Upgrade INI to YAML
 
