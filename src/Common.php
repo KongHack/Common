@@ -182,11 +182,19 @@ abstract class Common implements \GCWorld\Interfaces\Common
             if (!is_array($cacheArray)) {
                 return false;
             }
-            $cache = new \Redis();
-            $cache->connect($cacheArray['host']);
-            if (array_key_exists('auth', $cacheArray)) {
+            set_error_handler('\GCWorld\ErrorHandlers\ErrorHandlers::errorHandler');
+            try {
+                $cache = new \Redis();
+                $cache->connect($cacheArray['host']);
+            } catch (\ErrorException $e) {
+                $cache = false;
+            }
+            restore_error_handler();
+
+            if($cache && array_key_exists('auth', $cacheArray)){
                 $cache->auth($cacheArray['auth']);
             }
+
 
             $this->caches[$instance] = $cache;
         }
