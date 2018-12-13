@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.4.0](https://github.com/KongHack/Common/releases/tag/2.4.0)
+ - @GameCharmer Upgrade from `SET NAMES utf8` to `charset=utf8mb4` in the default DSN
+
+
 ## [2.3.2](https://github.com/KongHack/Common/releases/tag/2.3.2)
  - @GameCharmer Add a try/catch around redis connecting in the event 
  - @GameCharmer Implement error handler to promote to exception 
