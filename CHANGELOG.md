@@ -6,6 +6,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.4.2](https://github.com/KongHack/Common/releases/tag/2.4.2)
+ - @GameCharmer Support `ssl_verify` boolean
+ 
  - seld/cli-prompt removed (installed version was 1.0.3)
 
  - composer/installers updated from v1.5.0 to v1.6.0
