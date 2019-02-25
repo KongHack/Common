@@ -10,7 +10,7 @@
   "require": {
     "php": ">=7.1",
     "gcworld/interfaces": ">=3.1.1",
-    "gcworld/database":"^2.3.2",
+    "gcworld/database":"^2.3.10",
     "gcworld/errorhandlers":"^1.2.0",
     "symfony/yaml": "^3.3"
   },

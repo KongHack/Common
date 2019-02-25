@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3daf39f36dffe14ce34144962fa7f4d0",
+    "content-hash": "c3ea979f4f7d07c4ee875741682aca82",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -384,21 +384,22 @@
         },
         {
             "name": "gcworld/database",
-            "version": "2.3.6",
+            "version": "2.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KongHack/Database.git",
-                "reference": "20ee5a2ca8e7fd4f280e9f159461141f32fc12aa"
+                "reference": "0152da9e1cd5e346c06a7a4a319278bcd2eaad98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KongHack/Database/zipball/20ee5a2ca8e7fd4f280e9f159461141f32fc12aa",
-                "reference": "20ee5a2ca8e7fd4f280e9f159461141f32fc12aa",
+                "url": "https://api.github.com/repos/KongHack/Database/zipball/0152da9e1cd5e346c06a7a4a319278bcd2eaad98",
+                "reference": "0152da9e1cd5e346c06a7a4a319278bcd2eaad98",
                 "shasum": ""
             },
             "require": {
                 "composer/composer": "^1.1",
                 "composer/installers": "^1.0",
+                "ext-pdo": "*",
                 "gcworld/interfaces": ">=3.1.1",
                 "php": ">=7.1"
             },
@@ -424,7 +425,7 @@
                 }
             ],
             "description": "GCWorld Industries Database",
-            "time": "2017-10-20T17:53:44+00:00"
+            "time": "2019-02-25T17:54:25+00:00"
         },
         {
             "name": "gcworld/errorhandlers",

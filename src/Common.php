@@ -143,11 +143,23 @@ abstract class Common implements \GCWorld\Interfaces\Common
                 $controller                 = Controller::getInstance($instance);
                 $this->databases[$instance] = $controller->getDatabase(Controller::IDENTIFIER_READ);
             } else {
+                $options = [];
+                if(isset($databaseArray['ssl_key'])) {
+                    $options[Database::MYSQL_ATTR_SSL_KEY] = $databaseArray['ssl_key'];
+                }
+                if(isset($databaseArray['ssl_cert'])) {
+                    $options[Database::MYSQL_ATTR_SSL_CERT] = $databaseArray['ssl_cert'];
+                }
+                if(isset($databaseArray['ssl_ca'])) {
+                    $options[Database::MYSQL_ATTR_SSL_CA] = $databaseArray['ssl_ca'];
+                }
+
                 $database = new Database(
                     'mysql:charset=utf8mb4;host='.$databaseArray['host'].';dbname='.$databaseArray['name'].
                     (isset($databaseArray['port']) ? ';port='.$databaseArray['port'] : ''),
                     $databaseArray['user'],
-                    $databaseArray['pass']
+                    $databaseArray['pass'],
+                    $options
                 );
                 $database->setDefaults();
                 $this->databases[$instance] = $database;
