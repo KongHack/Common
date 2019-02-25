@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
-## [2.4.0](https://github.com/KongHack/Common/releases/tag/2.4.0)
+## [2.4.1](https://github.com/KongHack/Common/releases/tag/2.4.1)
  - @GameCharmer New handling for SSL config options
  - gcworld/database updated from 2.3.6 to 2.3.10
    See changes: https://github.com/KongHack/Database/compare/2.3.6...2.3.10
