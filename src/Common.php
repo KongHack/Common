@@ -153,6 +153,9 @@ abstract class Common implements \GCWorld\Interfaces\Common
                 if(isset($databaseArray['ssl_ca'])) {
                     $options[Database::MYSQL_ATTR_SSL_CA] = $databaseArray['ssl_ca'];
                 }
+                if(isset($databaseArray['ssl_verify'])) {
+                    $options[Database::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $databaseArray['ssl_verify'];
+                }
 
                 $database = new Database(
                     'mysql:charset=utf8mb4;host='.$databaseArray['host'].';dbname='.$databaseArray['name'].
