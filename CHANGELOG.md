@@ -6,6 +6,121 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+ - seld/cli-prompt removed (installed version was 1.0.3)
+
+ - composer/installers updated from v1.5.0 to v1.6.0
+   See changes: https://github.com/composer/installers/compare/v1.5.0...v1.6.0
+   Release notes: https://github.com/composer/installers/releases/tag/v1.6.0
+
+ - gcworld/interfaces updated from 3.1.3 to 3.2.0
+   See changes: https://github.com/KongHack/Interfaces/compare/3.1.3...3.2.0
+   Release notes: https://github.com/KongHack/Interfaces/releases/tag/3.2.0
+
+ - symfony/polyfill-ctype installed in version v1.10.0
+   Release notes: https://github.com/symfony/polyfill-ctype/releases/tag/v1.10.0
+
+ - symfony/yaml updated from v3.4.4 to v3.4.22
+   See changes: https://github.com/symfony/yaml/compare/v3.4.4...v3.4.22
+   Release notes: https://github.com/symfony/yaml/releases/tag/v3.4.22
+
+ - nette/utils updated from v2.5.1 to v2.5.3
+   See changes: https://github.com/nette/utils/compare/v2.5.1...v2.5.3
+   Release notes: https://github.com/nette/utils/releases/tag/v2.5.3
+
+ - nette/neon updated from v2.4.2 to v3.0.0
+   See changes: https://github.com/nette/neon/compare/v2.4.2...v3.0.0
+   Release notes: https://github.com/nette/neon/releases/tag/v3.0.0
+
+ - nette/php-generator updated from v3.0.2 to v3.2.1
+   See changes: https://github.com/nette/php-generator/compare/v3.0.2...v3.2.1
+   Release notes: https://github.com/nette/php-generator/releases/tag/v3.2.1
+
+ - nette/di updated from v2.4.10 to v2.4.15
+   See changes: https://github.com/nette/di/compare/v2.4.10...v2.4.15
+   Release notes: https://github.com/nette/di/releases/tag/v2.4.15
+
+ - nette/bootstrap updated from v2.4.5 to v2.4.6
+   See changes: https://github.com/nette/bootstrap/compare/v2.4.5...v2.4.6
+   Release notes: https://github.com/nette/bootstrap/releases/tag/v2.4.6
+
+ - nikic/php-parser updated from v3.1.4 to v3.1.5
+   See changes: https://github.com/nikic/PHP-Parser/compare/v3.1.4...v3.1.5
+   Release notes: https://github.com/nikic/PHP-Parser/releases/tag/v3.1.5
+
+ - symfony/polyfill-mbstring updated from v1.7.0 to v1.10.0
+   See changes: https://github.com/symfony/polyfill-mbstring/compare/v1.7.0...v1.10.0
+   Release notes: https://github.com/symfony/polyfill-mbstring/releases/tag/v1.10.0
+
+ - psr/log updated from 1.0.2 to 1.1.0
+   See changes: https://github.com/php-fig/log/compare/1.0.2...1.1.0
+   Release notes: https://github.com/php-fig/log/releases/tag/1.1.0
+
+ - symfony/debug updated from v4.0.4 to v4.2.3
+   See changes: https://github.com/symfony/debug/compare/v4.0.4...v4.2.3
+   Release notes: https://github.com/symfony/debug/releases/tag/v4.2.3
+
+ - squizlabs/php_codesniffer updated from 2.9.1 to 2.9.2
+   See changes: https://github.com/squizlabs/PHP_CodeSniffer/compare/2.9.1...2.9.2
+   Release notes: https://github.com/squizlabs/PHP_CodeSniffer/releases/tag/2.9.2
+
+ - symfony/process updated from v4.0.4 to v4.2.3
+   See changes: https://github.com/symfony/process/compare/v4.0.4...v4.2.3
+   Release notes: https://github.com/symfony/process/releases/tag/v4.2.3
+
+ - symfony/finder updated from v3.4.4 to v3.4.22
+   See changes: https://github.com/symfony/finder/compare/v3.4.4...v3.4.22
+   Release notes: https://github.com/symfony/finder/releases/tag/v3.4.22
+
+ - symfony/filesystem updated from v4.0.4 to v4.2.3
+   See changes: https://github.com/symfony/filesystem/compare/v4.0.4...v4.2.3
+   Release notes: https://github.com/symfony/filesystem/releases/tag/v4.2.3
+
+ - symfony/contracts installed in version v1.0.2
+   Release notes: https://github.com/symfony/contracts/releases/tag/v1.0.2
+
+ - symfony/console updated from v3.4.4 to v3.4.22
+   See changes: https://github.com/symfony/console/compare/v3.4.4...v3.4.22
+   Release notes: https://github.com/symfony/console/releases/tag/v3.4.22
+
+ - justinrainbow/json-schema updated from 5.2.7 to 5.2.8
+   See changes: https://github.com/justinrainbow/json-schema/compare/5.2.7...5.2.8
+   Release notes: https://github.com/justinrainbow/json-schema/releases/tag/5.2.8
+
+ - composer/xdebug-handler installed in version 1.3.2
+   Release notes: https://github.com/composer/xdebug-handler/releases/tag/1.3.2
+
+ - composer/spdx-licenses updated from 1.3.0 to 1.5.0
+   See changes: https://github.com/composer/spdx-licenses/compare/1.3.0...1.5.0
+   Release notes: https://github.com/composer/spdx-licenses/releases/tag/1.5.0
+
+ - composer/ca-bundle updated from 1.1.0 to 1.1.4
+   See changes: https://github.com/composer/ca-bundle/compare/1.1.0...1.1.4
+   Release notes: https://github.com/composer/ca-bundle/releases/tag/1.1.4
+
+ - composer/composer updated from 1.6.3 to 1.8.4
+   See changes: https://github.com/composer/composer/compare/1.6.3...1.8.4
+   Release notes: https://github.com/composer/composer/releases/tag/1.8.4
+
+ - nette/finder updated from v2.4.1 to v2.4.2
+   See changes: https://github.com/nette/finder/compare/v2.4.1...v2.4.2
+   Release notes: https://github.com/nette/finder/releases/tag/v2.4.2
+
+ - nette/caching updated from v2.5.6 to v3.0.0
+   See changes: https://github.com/nette/caching/compare/v2.5.6...v3.0.0
+   Release notes: https://github.com/nette/caching/releases/tag/v3.0.0
+
+ - nette/robot-loader updated from v3.0.3 to v3.1.0
+   See changes: https://github.com/nette/robot-loader/compare/v3.0.3...v3.1.0
+   Release notes: https://github.com/nette/robot-loader/releases/tag/v3.1.0
+
+ - symfony/config updated from v4.0.4 to v4.2.3
+   See changes: https://github.com/symfony/config/compare/v4.0.4...v4.2.3
+   Release notes: https://github.com/symfony/config/releases/tag/v4.2.3
+
+ - symfony/dependency-injection updated from v4.0.4 to v4.2.3
+   See changes: https://github.com/symfony/dependency-injection/compare/v4.0.4...v4.2.3
+   Release notes: https://github.com/symfony/dependency-injection/releases/tag/v4.2.3
+
 
 ## [2.4.1](https://github.com/KongHack/Common/releases/tag/2.4.1)
  - @GameCharmer New handling for SSL config options
