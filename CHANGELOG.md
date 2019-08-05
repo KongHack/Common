@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.4.3](https://github.com/KongHack/Common/releases/tag/2.4.3)
+ - @GameCharmer Support for `alias` in `getDatabase` to prevent creating duplicate connections on different names
+
+
+
 ## [2.4.2](https://github.com/KongHack/Common/releases/tag/2.4.2)
  - @GameCharmer Support `ssl_verify` boolean
  

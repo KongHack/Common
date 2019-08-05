@@ -138,6 +138,10 @@ abstract class Common implements \GCWorld\Interfaces\Common
                 throw new \Exception('DB Config Not Found!');
             }
             $databaseArray = $databases[$instance];
+            if(isset($databaseArray['alias']) && '' != $databaseArray['alias']) {
+                $this->databases[$instance] = $this->getDatabase($databaseArray['alias']);
+            }
+
             // Implement controller!
             if (isset($databaseArray['controller']) && $databaseArray['controller']) {
                 $controller                 = Controller::getInstance($instance);
