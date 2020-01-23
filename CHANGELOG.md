@@ -6,6 +6,109 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.5.0](https://github.com/KongHack/Common/releases/tag/2.5.0)
+ - @GameCharmer Updated min php version from 7.1 to 7.2.5
+ - @GameCharmer Updated Composer Dependencies
+ 
+ - symfony/debug removed (installed version was v4.4.0)
+
+ - nikic/php-parser removed (installed version was v3.1.5)
+
+ - nette/utils removed (installed version was v3.0.2)
+
+ - nette/schema removed (installed version was v1.0.1)
+
+ - nette/robot-loader removed (installed version was v3.2.0)
+
+ - nette/php-generator removed (installed version was v3.3.1)
+
+ - nette/neon removed (installed version was v3.0.0)
+
+ - nette/finder removed (installed version was v2.5.1)
+
+ - nette/di removed (installed version was v3.0.1)
+
+ - nette/caching removed (installed version was v3.0.1)
+
+ - nette/bootstrap removed (installed version was v3.0.1)
+
+ - phpstan/phpstan updated from 0.6.4 to 0.12.7
+   See changes: https://github.com/phpstan/phpstan/compare/0.6.4...0.12.7
+   Release notes: https://github.com/phpstan/phpstan/releases/tag/0.12.7
+
+ - symfony/polyfill-ctype updated from v1.12.0 to v1.13.1
+   See changes: https://github.com/symfony/polyfill-ctype/compare/v1.12.0...v1.13.1
+   Release notes: https://github.com/symfony/polyfill-ctype/releases/tag/v1.13.1
+
+ - symfony/filesystem updated from v4.4.0 to v4.4.3
+   See changes: https://github.com/symfony/filesystem/compare/v4.4.0...v4.4.3
+   Release notes: https://github.com/symfony/filesystem/releases/tag/v4.4.3
+
+ - symfony/config updated from v4.4.0 to v5.0.3
+   See changes: https://github.com/symfony/config/compare/v4.4.0...v5.0.3
+   Release notes: https://github.com/symfony/config/releases/tag/v5.0.3
+
+ - symfony/service-contracts updated from v2.0.0 to v2.0.1
+   See changes: https://github.com/symfony/service-contracts/compare/v2.0.0...v2.0.1
+   Release notes: https://github.com/symfony/service-contracts/releases/tag/v2.0.1
+
+ - symfony/dependency-injection updated from v4.4.0 to v5.0.3
+   See changes: https://github.com/symfony/dependency-injection/compare/v4.4.0...v5.0.3
+   Release notes: https://github.com/symfony/dependency-injection/releases/tag/v5.0.3
+
+ - pdepend/pdepend updated from 2.5.2 to 2.6.1
+   See changes: https://github.com/pdepend/pdepend/compare/2.5.2...2.6.1
+   Release notes: https://github.com/pdepend/pdepend/releases/tag/2.6.1
+
+ - phpmd/phpmd updated from 2.7.0 to 2.8.1
+   See changes: https://github.com/phpmd/phpmd/compare/2.7.0...2.8.1
+   Release notes: https://github.com/phpmd/phpmd/releases/tag/2.8.1
+
+ - gcworld/interfaces updated from 3.3.1 to 3.3.2
+   See changes: https://github.com/KongHack/Interfaces/compare/3.3.1...3.3.2
+   Release notes: https://github.com/KongHack/Interfaces/releases/tag/3.3.2
+
+ - symfony/yaml updated from v3.4.35 to v5.0.3
+   See changes: https://github.com/symfony/yaml/compare/v3.4.35...v5.0.3
+   Release notes: https://github.com/symfony/yaml/releases/tag/v5.0.3
+
+ - symfony/process updated from v4.4.0 to v4.4.3
+   See changes: https://github.com/symfony/process/compare/v4.4.0...v4.4.3
+   Release notes: https://github.com/symfony/process/releases/tag/v4.4.3
+
+ - symfony/finder updated from v3.4.35 to v4.4.3
+   See changes: https://github.com/symfony/finder/compare/v3.4.35...v4.4.3
+   Release notes: https://github.com/symfony/finder/releases/tag/v4.4.3
+
+ - symfony/polyfill-mbstring updated from v1.12.0 to v1.13.1
+   See changes: https://github.com/symfony/polyfill-mbstring/compare/v1.12.0...v1.13.1
+   Release notes: https://github.com/symfony/polyfill-mbstring/releases/tag/v1.13.1
+
+ - symfony/polyfill-php73 installed in version v1.13.1
+   Release notes: https://github.com/symfony/polyfill-php73/releases/tag/v1.13.1
+
+ - symfony/console updated from v3.4.35 to v4.4.3
+   See changes: https://github.com/symfony/console/compare/v3.4.35...v4.4.3
+   Release notes: https://github.com/symfony/console/releases/tag/v4.4.3
+
+ - seld/phar-utils updated from 1.0.1 to 1.0.2
+   See changes: https://github.com/Seldaek/phar-utils/compare/1.0.1...1.0.2
+   Release notes: https://github.com/Seldaek/phar-utils/releases/tag/1.0.2
+
+ - composer/semver updated from 1.5.0 to 1.5.1
+   See changes: https://github.com/composer/semver/compare/1.5.0...1.5.1
+   Release notes: https://github.com/composer/semver/releases/tag/1.5.1
+
+ - composer/ca-bundle updated from 1.2.4 to 1.2.6
+   See changes: https://github.com/composer/ca-bundle/compare/1.2.4...1.2.6
+   Release notes: https://github.com/composer/ca-bundle/releases/tag/1.2.6
+
+ - composer/composer updated from 1.9.1 to 1.9.2
+   See changes: https://github.com/composer/composer/compare/1.9.1...1.9.2
+   Release notes: https://github.com/composer/composer/releases/tag/1.9.2
+
+
+
 ## [2.4.4](https://github.com/KongHack/Common/releases/tag/2.4.4)
  - @GameCharmer Composer Update
 
