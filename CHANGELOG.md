@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](https://github.com/KongHack/Common)
 
 
+## [2.5.1](https://github.com/KongHack/Common/releases/tag/2.5.1)
+- @GameCharmer Support for YAML 4 or 5
+
+
 
 ## [2.5.0](https://github.com/KongHack/Common/releases/tag/2.5.0)
  - @GameCharmer Updated min php version from 7.1 to 7.2.5
