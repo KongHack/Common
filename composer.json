@@ -12,7 +12,7 @@
     "gcworld/interfaces": ">=3.1.1",
     "gcworld/database":"^2.3.10",
     "gcworld/errorhandlers":"^1.2.0",
-    "symfony/yaml": "^4.0 || ^5.0"
+    "symfony/yaml": "4 - 5"
   },
   "require-dev": {
     "gcworld/code_sniffer_contrib": "^1.0",
