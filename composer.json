@@ -8,16 +8,16 @@
     }
   ],
   "require": {
-    "php": ">=7.1",
+    "php": ">=7.2.5",
     "gcworld/interfaces": ">=3.1.1",
-    "gcworld/database":"^2.3.2",
+    "gcworld/database":"^2.3.10",
     "gcworld/errorhandlers":"^1.2.0",
-    "symfony/yaml": "^3.3"
+    "symfony/yaml": "^4.0"
   },
   "require-dev": {
     "gcworld/code_sniffer_contrib": "^1.0",
-    "phpstan/phpstan": "^0.6.4",
-    "phpmd/phpmd": "^2.6"
+    "phpstan/phpstan": "^0.12.7",
+    "phpmd/phpmd": "^2.8.1"
   },
   "autoload": {
     "psr-4": {
