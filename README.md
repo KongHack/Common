@@ -10,5 +10,3 @@ A default common singleton class built for extending.
 2.4.0
 
 ### Additional Information
-
-* [GCWorld Public Gitlab](https://gitlab.konghack.com/groups/GCWorld)
