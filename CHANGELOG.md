@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.5.4](https://github.com/KongHack/Common/releases/tag/2.5.4)
+ - @GameCharmer Update Composer Dependencies
+
+
+
 ## [2.5.3](https://github.com/KongHack/Common/releases/tag/2.5.3)
  - @GameCharmer Downgrade to YAML 4 due to composer "Something's changed, looking at all rules again" bug
 
