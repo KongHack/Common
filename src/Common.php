@@ -49,7 +49,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
     /**
      * @return void
      */
-    final private function __clone()
+    protected function __clone()
     {
     }
 

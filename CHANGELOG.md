@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.6.0](https://github.com/KongHack/Common/releases/tag/2.6.0)
+ - @GameCharmer PHP 8.0 Compat
+
+
+
 ## [2.5.4](https://github.com/KongHack/Common/releases/tag/2.5.4)
  - @GameCharmer Update Composer Dependencies
 
