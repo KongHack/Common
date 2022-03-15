@@ -33,9 +33,9 @@ abstract class Common implements CommonInterface
     }
 
     /**
-     * @return $this
+     * @return static
      */
-    final public static function getInstance()
+    final public static function getInstance(): static
     {
         static $instances = [];
 
