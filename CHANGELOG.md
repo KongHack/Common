@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.6.1](https://github.com/KongHack/Common/releases/tag/2.6.1)
+ - @GameCharmer Composer Update
+
+
+
 ## [2.6.0](https://github.com/KongHack/Common/releases/tag/2.6.0)
  - @GameCharmer PHP 8.0 Compat
 
@@ -20,12 +25,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
  - @GameCharmer Downgrade to YAML 4 due to composer "Something's changed, looking at all rules again" bug
 
 
+
 ## [2.5.2](https://github.com/KongHack/Common/releases/tag/2.5.2)
 - @GameCharmer Support for YAML 4 - 5 due to composer meltdown
 
 
+
 ## [2.5.1](https://github.com/KongHack/Common/releases/tag/2.5.1)
 - @GameCharmer Support for YAML 4 or 5
+
 
 
 ## [2.5.0](https://github.com/KongHack/Common/releases/tag/2.5.0)
