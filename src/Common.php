@@ -1,6 +1,7 @@
 <?php
 namespace GCWorld\Common;
 
+use GCWorld\Common\Interfaces\CommonInterface;
 use GCWorld\Database\Controller;
 use GCWorld\Database\Database;
 use GCWorld\Database\Interfaces\DatabaseInterface;
@@ -10,7 +11,7 @@ use Symfony\Component\Yaml\Yaml;
  * Class Common
  * @package GCWorld\Common
  */
-abstract class Common implements \GCWorld\Interfaces\Common
+abstract class Common implements CommonInterface
 {
     /**
      * Replace this in your extension to improve performance.
