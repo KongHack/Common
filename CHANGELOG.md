@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.6.3](https://github.com/KongHack/Common/releases/tag/2.6.3)
+ - @GameCharmer Implement self-contained interface for Common
+
+
+
 ## [2.6.2](https://github.com/KongHack/Common/releases/tag/2.6.2)
  - @GameCharmer Interface Update
 
