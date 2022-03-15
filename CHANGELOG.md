@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.6.2](https://github.com/KongHack/Common/releases/tag/2.6.2)
+ - @GameCharmer Interface Update
+
+
+
 ## [2.6.1](https://github.com/KongHack/Common/releases/tag/2.6.1)
  - @GameCharmer Composer Update
 

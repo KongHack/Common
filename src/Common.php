@@ -3,6 +3,7 @@ namespace GCWorld\Common;
 
 use GCWorld\Database\Controller;
 use GCWorld\Database\Database;
+use GCWorld\Database\Interfaces\DatabaseInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -125,7 +126,7 @@ abstract class Common implements \GCWorld\Interfaces\Common
 
     /**
      * @param mixed $instance
-     * @return Database
+     * @return DatabaseInterface
      * @throws \Exception
      */
     public function getDatabase($instance = 'default')
