@@ -9,13 +9,14 @@
   ],
   "require": {
     "php": ">=8.0",
-    "gcworld/database":">=2.5.1",
     "gcworld/errorhandlers":"^1.2.0",
-    "symfony/yaml": "^4.0"
+    "symfony/yaml": "^4.0",
+    "gcworld/interfaces": ">=4.1.0",
+    "gcworld/database": "^2.5"
   },
   "require-dev": {
     "gcworld/code_sniffer_contrib": "^1.0",
-    "phpstan/phpstan": "^1.0",
+    "phpstan/phpstan": "^1.4",
     "phpmd/phpmd": "^2.8.1"
   },
   "autoload": {

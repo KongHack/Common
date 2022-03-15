@@ -1,10 +1,10 @@
 <?php
 namespace GCWorld\Common;
 
-use GCWorld\Common\Interfaces\CommonInterface;
 use GCWorld\Database\Controller;
 use GCWorld\Database\Database;
-use GCWorld\Database\Interfaces\DatabaseInterface;
+use GCWorld\Interfaces\CommonInterface;
+use GCWorld\Interfaces\Database\DatabaseInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
