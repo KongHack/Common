@@ -10,13 +10,13 @@
   "require": {
     "php": ">=8.0",
     "gcworld/errorhandlers":"^1.2.0",
-    "symfony/yaml": "^4.0",
+    "symfony/yaml": "^6.0",
     "gcworld/interfaces": ">=4.1.1",
     "gcworld/database": "^2.5"
   },
   "require-dev": {
     "gcworld/code_sniffer_contrib": "^1.0",
-    "phpstan/phpstan": "^1.4",
+    "phpstan/phpstan": "^1.9",
     "phpmd/phpmd": "^2.8.1"
   },
   "autoload": {

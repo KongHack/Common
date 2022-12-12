@@ -17,13 +17,19 @@ abstract class Common implements CommonInterface
      * Replace this in your extension to improve performance.
      * @var null|string
      */
-    protected $configPath = null;
+    protected ?string $configPath = null;
+    protected ?array  $config     = null;
+    protected array   $caches     = [];
+    protected array   $databases  = [];
+    protected ?array  $filePaths  = null;
+    protected ?array  $webPaths   = null;
 
-    protected $config    = null;
-    protected $caches    = [];
-    protected $databases = [];
-    protected $filePaths = null;
-    protected $webPaths  = null;
+    /**
+     * If enabled, will cache yaml results to a .php file
+     *
+     * @var bool
+     */
+    protected bool $cacheConfig = false;
 
     /**
      * Common constructor.
@@ -63,47 +69,49 @@ abstract class Common implements CommonInterface
      */
     protected function loadConfig()
     {
-        if ($this->configPath == null) {
-            // Step 1, check for our yml file.  If found, awesome
-            $basePath = dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
-            $fileName = 'config'.DIRECTORY_SEPARATOR.'config.yml';
-            $inc      = 0;
-            $path     = $basePath;
-            while(!file_exists($path.$fileName) && $inc < 12) {
-                $path .= '..'.DIRECTORY_SEPARATOR;
-                ++$inc;
-            }
-            if(file_exists($path.$fileName)) {
-                $this->configPath = $path.$fileName;
-                $this->config     = Yaml::parse(file_get_contents($this->configPath));
+        if ($this->configPath === null) {
+            $this->configPath = $this->findConfigFile();
+        }
+
+        if(!str_ends_with($this->configPath,'.yml')) {
+            throw new \Exception('Common Config File must end in .yml');
+        }
+
+        if($this->cacheConfig) {
+            $cacheFile = substr($this->configPath,-3).'php';
+            if(file_exists($cacheFile)) {
+                $this->config = require $cacheFile;
                 return;
             }
+        }
+        $this->config = Yaml::parseFile($this->configPath);
+        if($this->cacheConfig) {
+            $contents = '<?php'.PHP_EOL.PHP_EOL.'return '.\var_export($this->config, true).';'.PHP_EOL;
+            \file_put_contents($cacheFile, $contents);
+        }
+    }
 
-            $fileName = 'config'.DIRECTORY_SEPARATOR.'config.ini';
-            $path     = $basePath;
-            $inc      = 0;
-            while (!file_exists($path.$fileName)) {
-                $path .= '..'.DIRECTORY_SEPARATOR;
-                if ($inc > 12) {
-                    throw new \Exception('config.ini file not found');
-                }
-                ++$inc;
-            }
-            $this->configPath = $path.$fileName;
-            $this->config = self::parse_ini_file_multi($this->configPath, true);
-            $config = Yaml::dump($this->config, 3);
-            file_put_contents(str_replace('.ini','.yml',$this->configPath), $config);
-            return;
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    protected function findConfigFile()
+    {
+        // Check for our yml file.  If found, awesome
+        $basePath = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
+        $fileName = 'config'.DIRECTORY_SEPARATOR.'config.yml';
+        $inc      = 0;
+        $path     = $basePath;
+        while(!file_exists($path.$fileName) && $inc < 12) {
+            $path .= '..'.DIRECTORY_SEPARATOR;
+            ++$inc;
         }
 
-        if(substr($this->configPath,-3) == 'ini') {
-            $this->config = self::parse_ini_file_multi($this->configPath, true);
-            $config = Yaml::dump($this->config, 3);
-            file_put_contents(str_replace('.ini','.yml',$this->configPath), $config);
-            return;
+        if(!file_exists($path.$fileName)) {
+            throw new \Exception('Common could not find config file');
         }
 
-        $this->config = Yaml::parse(file_get_contents($this->configPath));
+        return $this->configPath;
     }
 
     /**
