@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.7.1](https://github.com/KongHack/Common/releases/tag/2.7.1)
+- @GameCharmer Add GCINTERNAL key when caching for time tracking
+
+
+
 ## [2.7.0](https://github.com/KongHack/Common/releases/tag/2.7.0)
 - @GameCharmer Remove INI file support
 - @GameCharmer Update Yaml from 4.x to 6.x

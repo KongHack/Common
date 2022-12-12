@@ -86,7 +86,14 @@ abstract class Common implements CommonInterface
         }
         $this->config = Yaml::parseFile($this->configPath);
         if($this->cacheConfig) {
-            $contents = '<?php'.PHP_EOL.PHP_EOL.'return '.\var_export($this->config, true).';'.PHP_EOL;
+            $tmp               = $this->config;
+            $tmp['GCINTERNAL'] = [
+                'yaml_mtime' => filemtime($this->configPath),
+                'cache_time' => time(),
+            ];
+
+            // Export to cache file
+            $contents = '<?php'.PHP_EOL.PHP_EOL.'return '.\var_export($tmp, true).';'.PHP_EOL;
             \file_put_contents($cacheFile, $contents);
         }
     }
