@@ -6,6 +6,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.7.0](https://github.com/KongHack/Common/releases/tag/2.7.0)
+- @GameCharmer Remove INI file support
+- @GameCharmer Update Yaml from 4.x to 6.x
+- @GameCharmer Include config caching via .php file
+
+
+
 ## [2.6.5](https://github.com/KongHack/Common/releases/tag/2.6.5)
  - @GameCharmer New Implementation for getInstance
 
