@@ -78,12 +78,13 @@ abstract class Common implements CommonInterface
         }
 
         if($this->cacheConfig) {
-            $cacheFile = substr($this->configPath,-3).'php';
-            if(file_exists($cacheFile)) {
+            $cacheFile = substr($this->configPath, 0, -3).'php';
+            if(\file_exists($cacheFile)) {
                 $this->config = require $cacheFile;
                 return;
             }
         }
+
         $this->config = Yaml::parseFile($this->configPath);
         if($this->cacheConfig) {
             $tmp               = $this->config;

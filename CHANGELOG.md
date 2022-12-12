@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.7.2](https://github.com/KongHack/Common/releases/tag/2.7.2)
+- @GameCharmer Patch SubStr
+
+
+
 ## [2.7.1](https://github.com/KongHack/Common/releases/tag/2.7.1)
 - @GameCharmer Add GCINTERNAL key when caching for time tracking
 
