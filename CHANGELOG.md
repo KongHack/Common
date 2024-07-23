@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.7.3](https://github.com/KongHack/Common/releases/tag/2.7.3)
+- @GameCharmer Update composer/composer
+
+
+
 ## [2.7.2](https://github.com/KongHack/Common/releases/tag/2.7.2)
 - @GameCharmer Patch SubStr
 
