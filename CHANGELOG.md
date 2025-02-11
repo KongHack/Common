@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.7.5](https://github.com/KongHack/Common/releases/tag/2.7.5)
+- @GameCharmer new `persistent` config key for redis setups
+
+
+
 ## [2.7.4](https://github.com/KongHack/Common/releases/tag/2.7.4)
 - @GameCharmer Update Composer Dependencies
 
