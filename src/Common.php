@@ -221,7 +221,11 @@ abstract class Common implements CommonInterface
             set_error_handler('\GCWorld\ErrorHandlers\ErrorHandlers::errorHandler');
             try {
                 $cache = new \Redis();
-                $cache->connect($cacheArray['host']);
+                if(isset($cacheArray['persistent']) && $cacheArray['persistent']) {
+                    $cache->pconnect($cacheArray['host']);
+                } else {
+                    $cache->connect($cacheArray['host']);
+                }
             } catch (\ErrorException $e) {
                 $cache = false;
             }
