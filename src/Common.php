@@ -309,19 +309,18 @@ abstract class Common implements CommonInterface
             try {
                 $cache = new \Redis();
                 if(isset($cacheArray['persistent']) && $cacheArray['persistent']) {
-                    $cache->pconnect($cacheArray['host']);
+                    $cache->pconnect($cacheArray['host'], $cacheArray['port']??6379);
                 } else {
-                    $cache->connect($cacheArray['host']);
+                    $cache->connect($cacheArray['host'], $cacheArray['port']??6379);
                 }
             } catch (\ErrorException) {
                 $cache = false;
             }
             restore_error_handler();
 
-            if($cache && array_key_exists('auth', $cacheArray)){
+            if($cache && isset($cacheArray['auth'])){
                 $cache->auth($cacheArray['auth']);
             }
-
 
             $this->caches[$instance] = $cache;
         }
