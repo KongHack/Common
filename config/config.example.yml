@@ -8,9 +8,16 @@ database:
 cache:
   default:
     host: localhost
+  cluster_instance:
+    cluster:
+      - host1:port
+      - host2:port
+      - host3:port
+    auth: Pass
   secure:
     host: localhost
     auth: PASSWORD
+    port: 6379
 paths:
   file:
     root: /your/file/path/

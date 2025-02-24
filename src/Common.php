@@ -286,7 +286,7 @@ abstract class Common implements CommonInterface
 
     /**
      * @param mixed $instance
-     * @return \Redis|bool
+     * @return \Redis|\RedisCluster|bool
      */
     public function getCache($instance = 'default')
     {
@@ -296,34 +296,52 @@ abstract class Common implements CommonInterface
             return false;
         }
 
-        if (!isset($this->caches[$instance])) {
-            $caches = $this->getConfig('cache');
-            if(!isset($caches[$instance])){
-                return false;
-            }
-            $cacheArray = $caches[$instance];
-            if (!is_array($cacheArray)) {
-                return false;
-            }
-            set_error_handler('\\GCWorld\\ErrorHandlers\\ErrorHandlers::errorHandler');
-            try {
-                $cache = new \Redis();
-                if(isset($cacheArray['persistent']) && $cacheArray['persistent']) {
-                    $cache->pconnect($cacheArray['host'], $cacheArray['port']??6379);
-                } else {
-                    $cache->connect($cacheArray['host'], $cacheArray['port']??6379);
-                }
-            } catch (\ErrorException) {
-                $cache = false;
-            }
+        if (isset($this->caches[$instance])) {
+            return $this->caches[$instance];
+        }
+
+        $caches = $this->getConfig('cache');
+        if(!isset($caches[$instance])){
+            return false;
+        }
+        $cacheArray = $caches[$instance];
+        if (!is_array($cacheArray)) {
+            return false;
+        }
+        set_error_handler('\\GCWorld\\ErrorHandlers\\ErrorHandlers::errorHandler');
+
+        if(isset($cacheArray['cluster'])) {
+            $cCluster = new \RedisCluster(
+                $instance,
+                $cacheArray['cluster'],
+                $cacheArray['timeout'] ?? null,
+                $cacheArray['readTimeout'] ?? null,
+                $cacheArray['persistent'] ?? false,
+                $cacheArray['auth'] ?? null
+            );
+            $this->caches[$instance] = $cCluster;
             restore_error_handler();
 
-            if($cache && isset($cacheArray['auth'])){
-                $cache->auth($cacheArray['auth']);
-            }
-
-            $this->caches[$instance] = $cache;
+            return $cCluster;
         }
+
+        try {
+            $cache = new \Redis();
+            if(isset($cacheArray['persistent']) && $cacheArray['persistent']) {
+                $cache->pconnect($cacheArray['host'], $cacheArray['port']??6379);
+            } else {
+                $cache->connect($cacheArray['host'], $cacheArray['port']??6379);
+            }
+        } catch (\ErrorException) {
+            $cache = false;
+        }
+        restore_error_handler();
+
+        if($cache && isset($cacheArray['auth'])){
+            $cache->auth($cacheArray['auth']);
+        }
+
+        $this->caches[$instance] = $cache;
 
         return $this->caches[$instance];
     }
