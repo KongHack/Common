@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.7.6](https://github.com/KongHack/Common/releases/tag/2.7.6)
+- @GameCharmer Exception updates, config update, new sort and resolve_hosts options
+
+
+
 ## [2.7.5](https://github.com/KongHack/Common/releases/tag/2.7.5)
 - @GameCharmer new `persistent` config key for redis setups
 

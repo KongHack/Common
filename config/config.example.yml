@@ -1,0 +1,37 @@
+database:
+  default:
+    host: 127.0.0.1
+    name: DATABASE_NAME
+    user: DATABASE_USER
+    pass: DATABASE_PASSWORD
+    controller: 0
+cache:
+  default:
+    host: localhost
+  secure:
+    host: localhost
+    auth: PASSWORD
+paths:
+  file:
+    root: /your/file/path/
+    web: /your/file/path/
+    temp: /your/file/path/
+    private: /your/file/path/
+  web:
+    base: 'https://your.website.com/'
+    temp: .temp
+    asset_cache: .cache
+mongo:
+  default:
+    host: 'localhost:27017'
+server:
+  name: NAME_OF_SERVER
+  environment: LOCAL
+build:
+  id: local
+include:
+  - otherfile.yml
+  - anotherfile.yml
+common:
+  sort: true
+  resolve_hosts: false

@@ -1,6 +1,10 @@
 <?php
 namespace GCWorld\Common;
 
+use Exception;
+use GCWorld\Common\Exceptions\ConfigInclusionException;
+use GCWorld\Common\Exceptions\ConfigLoadException;
+use GCWorld\Common\Exceptions\ConfigLocationException;
 use GCWorld\Database\Controller;
 use GCWorld\Database\Database;
 use GCWorld\Interfaces\CommonInterface;
@@ -62,30 +66,37 @@ abstract class Common implements CommonInterface
     }
 
     /**
-     * Finds and loads the config file.  Will also convert from ini to yml
+     * Finds and loads the config file.
      * Please replace with direct path to your config file to prevent searching
-     * @throws \Exception
+     * @throws Exception
      * @return void
      */
-    protected function loadConfig()
+    protected function loadConfig(): void
     {
         if ($this->configPath === null) {
             $this->configPath = $this->findConfigFile();
         }
 
         if(!str_ends_with($this->configPath,'.yml')) {
-            throw new \Exception('Common Config File must end in .yml');
+            throw new Exception('Common Config File must end in .yml');
         }
 
         if($this->cacheConfig) {
             $cacheFile = substr($this->configPath, 0, -3).'php';
             if(\file_exists($cacheFile)) {
                 $this->config = require $cacheFile;
+                $this->testConfig();
                 return;
             }
         }
 
         $this->config = Yaml::parseFile($this->configPath);
+        $this->testConfig();
+
+        $this->processSort();
+        $this->processIncludes();
+        $this->processResolutions();
+
         if($this->cacheConfig) {
             $tmp               = $this->config;
             $tmp['GCINTERNAL'] = [
@@ -100,10 +111,94 @@ abstract class Common implements CommonInterface
     }
 
     /**
-     * @return string
-     * @throws \Exception
+     * @return void
      */
-    protected function findConfigFile()
+    protected function processResolutions(): void
+    {
+        if(!isset($this->config['common']) || !isset($this->config['common']['resolve_hosts'])) {
+            return;
+        }
+        if(!$this->config['common']['resolve_hosts']) {
+            return;
+        }
+
+        array_walk_recursive($this->config, function(&$item, $key) {
+            if($key !== 'host') {
+                return;
+            }
+
+            $tmp = explode(':',$item);
+            if(count($tmp) > 2) {
+                return;
+            }
+            $tmp[0] = gethostbyname($tmp[0]);
+            $item   = implode(':',$tmp);
+        });
+    }
+
+    /**
+     * @return void
+     * @throws ConfigLoadException
+     */
+    protected function testConfig(): void
+    {
+        if (!is_array($this->config) || empty($this->config)) {
+            throw new ConfigLoadException('Config File Failed to Load: '.$this->configPath);
+        }
+    }
+
+    /**
+     * @return void
+     * @throws ConfigInclusionException
+     */
+    protected function processIncludes(): void
+    {
+        if(!isset($this->config['includes']) || !is_array($this->config['includes'])) {
+            return;
+        }
+        $base = str_replace('config.yml','',$this->config);
+        foreach($this->config['includes'] as $file) {
+            if(!file_exists($base.$file)) {
+                throw new ConfigInclusionException('Config Inclusion File Not Found. '.$file);
+            }
+
+            $items = Yaml::parseFile($this->configPath);
+            $this->config = array_replace_recursive($this->config, $items);
+        }
+
+        $this->testConfig();
+    }
+
+    /**
+     * @return void
+     */
+    protected function processSort(): void
+    {
+        if(!isset($this->config['common']) || !isset($this->config['common']['sort'])) {
+            return;
+        }
+        if(!$this->config['common']['sort']) {
+            return;
+        }
+        // Disable once sorted
+        $this->config['common']['sort'] = false;
+
+        $sort = function(&$arr) use (&$sort) {
+            if(is_array($arr)) {
+                ksort($arr);
+                array_walk($arr, $sort);
+            }
+        };
+
+        $sort($this->config);
+        file_put_contents($this->configPath, Yaml::dump($this->config, 4));
+    }
+
+    /**
+     * @return string
+     * @throws ConfigLocationException
+     */
+    protected function findConfigFile(): string
     {
         // Check for our yml file.  If found, awesome
         $basePath = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
@@ -116,7 +211,7 @@ abstract class Common implements CommonInterface
         }
 
         if(!file_exists($path.$fileName)) {
-            throw new \Exception('Common could not find config file');
+            throw new ConfigLocationException('Common could not find config file');
         }
 
         return $this->configPath;
@@ -125,35 +220,30 @@ abstract class Common implements CommonInterface
     /**
      * @param string $heading
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
-    public function getConfig(string $heading)
+    public function getConfig(string $heading): array
     {
         if ($this->config == null) {
             $this->loadConfig();
-            if (!is_array($this->config) || count($this->config) < 1) {
-                throw new \Exception('Config File Failed to Load: '.$this->configPath);
-            }
         }
-        if (array_key_exists($heading, $this->config)) {
-            return $this->config[$heading];
-        }
-        return [];
+
+        return $this->config[$heading] ?? [];
     }
 
     /**
      * @param mixed $instance
      * @return DatabaseInterface
-     * @throws \Exception
+     * @throws Exception
      */
-    public function getDatabase($instance = 'default')
+    public function getDatabase($instance = 'default'): DatabaseInterface
     {
         $instance = (empty($instance) ? 'default' : $instance);
 
         if (!isset($this->databases[$instance])) {
             $databases = $this->getConfig('database');
             if (!array_key_exists($instance, $databases)) {
-                throw new \Exception('DB Config Not Found!');
+                throw new Exception('DB Config Not Found!');
             }
             $databaseArray = $databases[$instance];
             if(isset($databaseArray['alias']) && '' != $databaseArray['alias']) {
@@ -208,17 +298,14 @@ abstract class Common implements CommonInterface
 
         if (!isset($this->caches[$instance])) {
             $caches = $this->getConfig('cache');
-            if (!is_array($caches)) {
-                return false;
-            }
-            if (!array_key_exists($instance, $caches)) {
+            if(!isset($caches[$instance])){
                 return false;
             }
             $cacheArray = $caches[$instance];
             if (!is_array($cacheArray)) {
                 return false;
             }
-            set_error_handler('\GCWorld\ErrorHandlers\ErrorHandlers::errorHandler');
+            set_error_handler('\\GCWorld\\ErrorHandlers\\ErrorHandlers::errorHandler');
             try {
                 $cache = new \Redis();
                 if(isset($cacheArray['persistent']) && $cacheArray['persistent']) {
@@ -226,7 +313,7 @@ abstract class Common implements CommonInterface
                 } else {
                     $cache->connect($cacheArray['host']);
                 }
-            } catch (\ErrorException $e) {
+            } catch (\ErrorException) {
                 $cache = false;
             }
             restore_error_handler();
@@ -246,7 +333,7 @@ abstract class Common implements CommonInterface
      * @param string $instance
      * @return bool
      */
-    public function closeDatabase(string $instance = 'default')
+    public function closeDatabase(string $instance = 'default'): bool
     {
         $instance = (empty($instance) ? 'default' : $instance);
 
@@ -270,7 +357,7 @@ abstract class Common implements CommonInterface
      * @param string $key
      * @return string
      */
-    public function getDirectory(string $key)
+    public function getDirectory(string $key): string
     {
         if ($this->filePaths == null) {
             $paths           = $this->getConfig('paths');
@@ -287,7 +374,7 @@ abstract class Common implements CommonInterface
      * @param string $key
      * @return string
      */
-    public function getPath(string $key)
+    public function getPath(string $key): string
     {
         if ($this->webPaths == null) {
             $paths          = $this->getConfig('paths');
@@ -308,11 +395,11 @@ abstract class Common implements CommonInterface
 
     /**
      * Note: This was designed to be dynamic.
-     * It should ignore the default unless it's being ran via cli or if HTTP_HOST is not being set
+     * It should ignore the default unless it's being run via cli or if HTTP_HOST is not being set
      * @param string $default
      * @return string
      */
-    final protected function calculateBase(string $default = '')
+    final protected function calculateBase(string $default = ''): string
     {
         // Get domain name/path so we can set up a base url
         if (isset($_SERVER['HTTP_HOST']) && php_sapi_name() != 'cli') {
@@ -322,7 +409,7 @@ abstract class Common implements CommonInterface
         }
 
         // Remove the WWW
-        if (strstr($base, 'www')) {
+        if (str_starts_with($base, 'www')) {
             $base = str_replace('www.', '', $base);
         }
 
@@ -336,56 +423,5 @@ abstract class Common implements CommonInterface
         }
 
         return ($sec ? 'https' : 'http').'://'.$base.'/';
-    }
-
-    /**
-     * NOTE: Will be removed in a future release
-     *
-     * @param string $file
-     * @param bool   $process_sections
-     * @param int    $scanner_mode
-     * @return array
-     */
-    public static function parse_ini_file_multi(string $file, bool $process_sections = false, int $scanner_mode = INI_SCANNER_NORMAL)
-    {
-        $explode_str = '.';
-        $escape_char = "'";
-        // load ini file the normal way
-        $data = parse_ini_file($file, $process_sections, $scanner_mode);
-        if (!$process_sections) {
-            $data = [$data];
-        }
-        foreach ($data as $section_key => $section) {
-            // loop inside the section
-            foreach ($section as $key => $value) {
-                if (strpos($key, $explode_str)) {
-                    if (substr($key, 0, 1) !== $escape_char) {
-                        // key has a dot. Explode on it, then parse each sub key
-                        // and set value at the right place thanks to references
-                        $sub_keys = explode($explode_str, $key);
-                        $subs     =& $data[$section_key];
-                        foreach ($sub_keys as $sub_key) {
-                            if (!isset($subs[$sub_key])) {
-                                $subs[$sub_key] = [];
-                            }
-                            $subs =& $subs[$sub_key];
-                        }
-                        // set the value at the right place
-                        $subs = $value;
-                        // unset the dotted key, we don't need it anymore
-                        unset($data[$section_key][$key]);
-                    } else {
-                        $new_key                      = trim($key, $escape_char);
-                        $data[$section_key][$new_key] = $value;
-                        unset($data[$section_key][$key]);
-                    }
-                }
-            }
-        }
-        if (!$process_sections) {
-            $data = $data[0];
-        }
-
-        return $data;
     }
 }
