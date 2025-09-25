@@ -12,7 +12,9 @@
     "gcworld/errorhandlers":"^1.2.0",
     "symfony/yaml": "^6.0",
     "gcworld/interfaces": ">=4.1.1",
-    "gcworld/database": "^2.5"
+    "gcworld/database": "^2.5",
+    "ext-redis": "*",
+    "ext-pdo": "*"
   },
   "require-dev": {
     "gcworld/code_sniffer_contrib": "^1.0",

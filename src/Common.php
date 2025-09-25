@@ -2,14 +2,11 @@
 namespace GCWorld\Common;
 
 use Exception;
-use GCWorld\Common\Exceptions\ConfigInclusionException;
-use GCWorld\Common\Exceptions\ConfigLoadException;
-use GCWorld\Common\Exceptions\ConfigLocationException;
 use GCWorld\Database\Controller;
 use GCWorld\Database\Database;
 use GCWorld\Interfaces\CommonInterface;
 use GCWorld\Interfaces\Database\DatabaseInterface;
-use Symfony\Component\Yaml\Yaml;
+use PDO;
 
 /**
  * Class Common
@@ -27,13 +24,6 @@ abstract class Common implements CommonInterface
     protected array   $databases  = [];
     protected ?array  $filePaths  = null;
     protected ?array  $webPaths   = null;
-
-    /**
-     * If enabled, will cache yaml results to a .php file
-     *
-     * @var bool
-     */
-    protected bool $cacheConfig = false;
 
     /**
      * Common constructor.
@@ -66,158 +56,6 @@ abstract class Common implements CommonInterface
     }
 
     /**
-     * Finds and loads the config file.
-     * Please replace with direct path to your config file to prevent searching
-     * @throws Exception
-     * @return void
-     */
-    protected function loadConfig(): void
-    {
-        if ($this->configPath === null) {
-            $this->configPath = $this->findConfigFile();
-        }
-
-        if(!str_ends_with($this->configPath,'.yml')) {
-            throw new Exception('Common Config File must end in .yml');
-        }
-
-        if($this->cacheConfig) {
-            $cacheFile = substr($this->configPath, 0, -3).'php';
-            if(\file_exists($cacheFile)) {
-                $this->config = require $cacheFile;
-                $this->testConfig();
-                return;
-            }
-        }
-
-        $this->config = Yaml::parseFile($this->configPath);
-        $this->testConfig();
-
-        $this->processSort();
-        $this->processIncludes();
-        $this->processResolutions();
-
-        if($this->cacheConfig) {
-            $tmp               = $this->config;
-            $tmp['GCINTERNAL'] = [
-                'yaml_mtime' => filemtime($this->configPath),
-                'cache_time' => time(),
-            ];
-
-            // Export to cache file
-            $contents = '<?php'.PHP_EOL.PHP_EOL.'return '.\var_export($tmp, true).';'.PHP_EOL;
-            \file_put_contents($cacheFile, $contents);
-        }
-    }
-
-    /**
-     * @return void
-     */
-    protected function processResolutions(): void
-    {
-        if(!isset($this->config['common']) || !isset($this->config['common']['resolve_hosts'])) {
-            return;
-        }
-        if(!$this->config['common']['resolve_hosts']) {
-            return;
-        }
-
-        array_walk_recursive($this->config, function(&$item, $key) {
-            if($key !== 'host') {
-                return;
-            }
-
-            $tmp = explode(':',$item);
-            if(count($tmp) > 2) {
-                return;
-            }
-            $tmp[0] = gethostbyname($tmp[0]);
-            $item   = implode(':',$tmp);
-        });
-    }
-
-    /**
-     * @return void
-     * @throws ConfigLoadException
-     */
-    protected function testConfig(): void
-    {
-        if (!is_array($this->config) || empty($this->config)) {
-            throw new ConfigLoadException('Config File Failed to Load: '.$this->configPath);
-        }
-    }
-
-    /**
-     * @return void
-     * @throws ConfigInclusionException
-     */
-    protected function processIncludes(): void
-    {
-        if(!isset($this->config['includes']) || !is_array($this->config['includes'])) {
-            return;
-        }
-        $base = str_replace('config.yml','',$this->config);
-        foreach($this->config['includes'] as $file) {
-            if(!file_exists($base.$file)) {
-                throw new ConfigInclusionException('Config Inclusion File Not Found. '.$file);
-            }
-
-            $items = Yaml::parseFile($this->configPath);
-            $this->config = array_replace_recursive($this->config, $items);
-        }
-
-        $this->testConfig();
-    }
-
-    /**
-     * @return void
-     */
-    protected function processSort(): void
-    {
-        if(!isset($this->config['common']) || !isset($this->config['common']['sort'])) {
-            return;
-        }
-        if(!$this->config['common']['sort']) {
-            return;
-        }
-        // Disable once sorted
-        $this->config['common']['sort'] = false;
-
-        $sort = function(&$arr) use (&$sort) {
-            if(is_array($arr)) {
-                ksort($arr);
-                array_walk($arr, $sort);
-            }
-        };
-
-        $sort($this->config);
-        file_put_contents($this->configPath, Yaml::dump($this->config, 4));
-    }
-
-    /**
-     * @return string
-     * @throws ConfigLocationException
-     */
-    protected function findConfigFile(): string
-    {
-        // Check for our yml file.  If found, awesome
-        $basePath = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
-        $fileName = 'config'.DIRECTORY_SEPARATOR.'config.yml';
-        $inc      = 0;
-        $path     = $basePath;
-        while(!file_exists($path.$fileName) && $inc < 12) {
-            $path .= '..'.DIRECTORY_SEPARATOR;
-            ++$inc;
-        }
-
-        if(!file_exists($path.$fileName)) {
-            throw new ConfigLocationException('Common could not find config file');
-        }
-
-        return $this->configPath;
-    }
-
-    /**
      * @param string $heading
      * @return array
      * @throws Exception
@@ -225,7 +63,8 @@ abstract class Common implements CommonInterface
     public function getConfig(string $heading): array
     {
         if ($this->config == null) {
-            $this->loadConfig();
+            $cConfig      = new CommonConfig($this->configPath);
+            $this->config = $cConfig->getArray();
         }
 
         return $this->config[$heading] ?? [];
@@ -257,16 +96,16 @@ abstract class Common implements CommonInterface
             } else {
                 $options = [];
                 if(isset($databaseArray['ssl_key'])) {
-                    $options[Database::MYSQL_ATTR_SSL_KEY] = $databaseArray['ssl_key'];
+                    $options[PDO::MYSQL_ATTR_SSL_KEY] = $databaseArray['ssl_key'];
                 }
                 if(isset($databaseArray['ssl_cert'])) {
-                    $options[Database::MYSQL_ATTR_SSL_CERT] = $databaseArray['ssl_cert'];
+                    $options[PDO::MYSQL_ATTR_SSL_CERT] = $databaseArray['ssl_cert'];
                 }
                 if(isset($databaseArray['ssl_ca'])) {
-                    $options[Database::MYSQL_ATTR_SSL_CA] = $databaseArray['ssl_ca'];
+                    $options[PDO::MYSQL_ATTR_SSL_CA] = $databaseArray['ssl_ca'];
                 }
                 if(isset($databaseArray['ssl_verify'])) {
-                    $options[Database::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $databaseArray['ssl_verify'];
+                    $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $databaseArray['ssl_verify'];
                 }
 
                 $database = new Database(
@@ -288,7 +127,7 @@ abstract class Common implements CommonInterface
      * @param mixed $instance
      * @return \Redis|\RedisCluster|bool
      */
-    public function getCache($instance = 'default')
+    public function getCache($instance = 'default'): bool|\RedisCluster|\Redis
     {
         $instance = (empty($instance) ? 'default' : $instance);
 
