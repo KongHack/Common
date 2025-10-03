@@ -125,12 +125,12 @@ abstract class Common implements CommonInterface
 
     /**
      * @param string|null $instance
-     * @return bool|\RedisCluster|\Redis
+     * @return null|\RedisCluster|\Redis
      */
-    public function getCache(?string $instance = 'default'): bool|\RedisCluster|\Redis
+    public function getCache(?string $instance = 'default'): null|\RedisCluster|\Redis
     {
         if (!class_exists('Redis')) {
-            return false;
+            return null;
         }
         $instance   = (empty($instance) ? 'default' : $instance);
         $tmp        = explode(':',$instance);
@@ -144,11 +144,11 @@ abstract class Common implements CommonInterface
         $caches = $this->getConfig('cache');
 
         if(!isset($caches[$instance])){
-            return false;
+            return null;
         }
         $cacheArray = $caches[$instance];
         if (!is_array($cacheArray)) {
-            return false;
+            return null;
         }
         set_error_handler('\\GCWorld\\ErrorHandlers\\ErrorHandlers::errorHandler');
 
@@ -180,7 +180,7 @@ abstract class Common implements CommonInterface
                 $cache->connect($cacheArray['host'], $cacheArray['port'] ?? 6379);
             }
         } catch (\ErrorException) {
-            $cache = false;
+            $cache = null;
         }
         restore_error_handler();
 
