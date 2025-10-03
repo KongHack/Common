@@ -7,6 +7,8 @@ use GCWorld\Database\Database;
 use GCWorld\Interfaces\CommonInterface;
 use GCWorld\Interfaces\Database\DatabaseInterface;
 use PDO;
+use Redis;
+use RedisCluster;
 
 /**
  * Class Common
@@ -125,9 +127,9 @@ abstract class Common implements CommonInterface
 
     /**
      * @param string|null $instance
-     * @return null|\RedisCluster|\Redis
+     * @return RedisCluster|Redis|null
      */
-    public function getCache(?string $instance = 'default'): null|\RedisCluster|\Redis
+    public function getCache(?string $instance = 'default'): RedisCluster|Redis|null
     {
         if (!class_exists('Redis')) {
             return null;
@@ -153,7 +155,7 @@ abstract class Common implements CommonInterface
         set_error_handler('\\GCWorld\\ErrorHandlers\\ErrorHandlers::errorHandler');
 
         if(isset($cacheArray['cluster'])) {
-            $cCluster = new \RedisCluster(
+            $cCluster = new RedisCluster(
                 $instance,
                 $cacheArray['cluster'],
                 $cacheArray['timeout'] ?? null,
@@ -168,7 +170,7 @@ abstract class Common implements CommonInterface
         }
 
         try {
-            $cache = new \Redis();
+            $cache = new Redis();
             if(isset($cacheArray['persistent']) && $cacheArray['persistent']) {
                 $cache->pconnect(
                     $cacheArray['host'],
