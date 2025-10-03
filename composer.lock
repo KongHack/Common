@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e38eaafb3073f9694899c70c352f481b",
+    "content-hash": "6f72c0d289bb11d23813765bfd6d4bd9",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -882,16 +882,16 @@
         },
         {
             "name": "gcworld/interfaces",
-            "version": "4.4.0",
+            "version": "4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KongHack/Interfaces.git",
-                "reference": "0f47cd951b8068b2524d254f95315e74bca03835"
+                "reference": "79ccf4948759b5886c2d566f64e92567c3635277"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KongHack/Interfaces/zipball/0f47cd951b8068b2524d254f95315e74bca03835",
-                "reference": "0f47cd951b8068b2524d254f95315e74bca03835",
+                "url": "https://api.github.com/repos/KongHack/Interfaces/zipball/79ccf4948759b5886c2d566f64e92567c3635277",
+                "reference": "79ccf4948759b5886c2d566f64e92567c3635277",
                 "shasum": ""
             },
             "require": {
@@ -922,9 +922,9 @@
             "description": "GCWorld Interfaces",
             "support": {
                 "issues": "https://github.com/KongHack/Interfaces/issues",
-                "source": "https://github.com/KongHack/Interfaces/tree/4.4.0"
+                "source": "https://github.com/KongHack/Interfaces/tree/4.4.2"
             },
-            "time": "2025-02-18T13:26:58+00:00"
+            "time": "2025-10-03T03:33:07+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -3331,7 +3331,9 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.4"
+        "php": ">=8.4",
+        "ext-redis": "*",
+        "ext-pdo": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
