@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.7.11](https://github.com/KongHack/Common/releases/tag/2.7.11)
+- @GameCharmer Update Interface, allow null on instance names
+
+
+
 ## [2.7.10](https://github.com/KongHack/Common/releases/tag/2.7.10)
 - @GameCharmer Remove crappy/pasta
 
