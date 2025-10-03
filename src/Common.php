@@ -130,6 +130,7 @@ abstract class Common implements CommonInterface
     public function getCache($instance = 'default'): bool|\RedisCluster|\Redis
     {
         $instance = (empty($instance) ? 'default' : $instance);
+        // PID that instance
 
         if (!class_exists('Redis')) {
             return false;
@@ -167,7 +168,12 @@ abstract class Common implements CommonInterface
         try {
             $cache = new \Redis();
             if(isset($cacheArray['persistent']) && $cacheArray['persistent']) {
-                $cache->pconnect($cacheArray['host'], $cacheArray['port']??6379);
+                $cache->pconnect(
+                    $cacheArray['host'],
+                    $cacheArray['port'] ?? 6379,
+                    $cacheArray['timeout'] ?? 0,
+                    'redis-'.getmypid()
+                );
             } else {
                 $cache->connect($cacheArray['host'], $cacheArray['port']??6379);
             }
