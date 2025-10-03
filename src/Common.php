@@ -124,28 +124,30 @@ abstract class Common implements CommonInterface
     }
 
     /**
-     * @param string $configName
-     * @param string $identifier
+     * @param string $instance
      *
      * @return bool|\RedisCluster|\Redis
      */
-    public function getCache(string $configName = 'default', string $identifier = ''): bool|\RedisCluster|\Redis
+    public function getCache(string $instance = 'default'): bool|\RedisCluster|\Redis
     {
         if (!class_exists('Redis')) {
             return false;
         }
-        $configName = (empty($configName) ? 'default' : $configName);
+        $instance   = (empty($instance) ? 'default' : $instance);
+        $tmp        = explode(':',$instance);
+        $instance   = $tmp[0];
+        $identifier = isset($tmp[1])?':'.$tmp[1]:'';
 
-        if (isset($this->caches[$configName.$identifier])) {
-            return $this->caches[$configName.$identifier];
+        if (isset($this->caches[$instance.$identifier])) {
+            return $this->caches[$instance.$identifier];
         }
 
         $caches = $this->getConfig('cache');
 
-        if(!isset($caches[$configName])){
+        if(!isset($caches[$instance])){
             return false;
         }
-        $cacheArray = $caches[$configName];
+        $cacheArray = $caches[$instance];
         if (!is_array($cacheArray)) {
             return false;
         }
@@ -153,14 +155,14 @@ abstract class Common implements CommonInterface
 
         if(isset($cacheArray['cluster'])) {
             $cCluster = new \RedisCluster(
-                $configName,
+                $instance,
                 $cacheArray['cluster'],
                 $cacheArray['timeout'] ?? null,
                 $cacheArray['readTimeout'] ?? null,
                 $cacheArray['persistent'] ?? false,
                 $cacheArray['auth'] ?? null
             );
-            $this->caches[$configName.$identifier] = $cCluster;
+            $this->caches[$instance.$identifier] = $cCluster;
             restore_error_handler();
 
             return $cCluster;
@@ -173,10 +175,10 @@ abstract class Common implements CommonInterface
                     $cacheArray['host'],
                     $cacheArray['port'] ?? 6379,
                     $cacheArray['timeout'] ?? 0,
-                    'redis-'.(empty($identifier)?getmypid():$identifier)
+                    'redis'.(empty($identifier)?':'.getmypid():$identifier)
                 );
             } else {
-                $cache->connect($cacheArray['host'], $cacheArray['port']??6379);
+                $cache->connect($cacheArray['host'], $cacheArray['port'] ?? 6379);
             }
         } catch (\ErrorException) {
             $cache = false;
@@ -187,21 +189,21 @@ abstract class Common implements CommonInterface
             $cache->auth($cacheArray['auth']);
         }
 
-        $this->caches[$configName.$identifier] = $cache;
+        $this->caches[$instance.$identifier] = $cache;
 
-        return $this->caches[$configName.$identifier];
+        return $this->caches[$instance.$identifier];
     }
 
     /**
      * @param string $instance
-     * @return bool
+     * @return void
      */
-    public function closeDatabase(string $instance = 'default'): bool
+    public function closeDatabase(string $instance = 'default'): void
     {
         $instance = (empty($instance) ? 'default' : $instance);
 
         if (!isset($this->databases[$instance])) {
-            return true;
+            return;
         }
 
         $database = $this->databases[$instance];
@@ -213,7 +215,32 @@ abstract class Common implements CommonInterface
 
         unset($this->databases[$instance]);
 
-        return true;
+        return;
+    }
+
+    /**
+     * @param string $instance
+     */
+    public function closeCache(string $instance = 'default'): void
+    {
+        $instance   = (empty($instance) ? 'default' : $instance);
+        $tmp        = explode(':',$instance);
+        $instance   = $tmp[0];
+        $identifier = isset($tmp[1])?':'.$tmp[1]:'';
+
+
+        if (!isset($this->caches[$instance.$identifier])) {
+            return;
+        }
+
+        $database = $this->caches[$instance.$identifier];
+        if ($database->getController() !== null) {
+            $database->getController()->disconnectAll();
+        } else {
+            $database->disconnect();
+        }
+
+        unset($this->caches[$instance.$identifier]);
     }
 
     /**
