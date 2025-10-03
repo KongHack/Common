@@ -882,16 +882,16 @@
         },
         {
             "name": "gcworld/interfaces",
-            "version": "4.4.3",
+            "version": "4.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KongHack/Interfaces.git",
-                "reference": "7a11d277fde629ccdf39adaa2b9ad0affd6fb9dc"
+                "reference": "2b37f5a4b0cf7667207575c8950c620e2a4eac04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KongHack/Interfaces/zipball/7a11d277fde629ccdf39adaa2b9ad0affd6fb9dc",
-                "reference": "7a11d277fde629ccdf39adaa2b9ad0affd6fb9dc",
+                "url": "https://api.github.com/repos/KongHack/Interfaces/zipball/2b37f5a4b0cf7667207575c8950c620e2a4eac04",
+                "reference": "2b37f5a4b0cf7667207575c8950c620e2a4eac04",
                 "shasum": ""
             },
             "require": {
@@ -922,9 +922,9 @@
             "description": "GCWorld Interfaces",
             "support": {
                 "issues": "https://github.com/KongHack/Interfaces/issues",
-                "source": "https://github.com/KongHack/Interfaces/tree/4.4.3"
+                "source": "https://github.com/KongHack/Interfaces/tree/4.4.4"
             },
-            "time": "2025-10-03T12:22:59+00:00"
+            "time": "2025-10-03T13:29:03+00:00"
         },
         {
             "name": "justinrainbow/json-schema",

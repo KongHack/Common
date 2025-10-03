@@ -71,11 +71,11 @@ abstract class Common implements CommonInterface
     }
 
     /**
-     * @param mixed $instance
+     * @param string|null $instance
      * @return DatabaseInterface
      * @throws Exception
      */
-    public function getDatabase($instance = 'default'): DatabaseInterface
+    public function getDatabase(?string $instance = 'default'): DatabaseInterface
     {
         $instance = (empty($instance) ? 'default' : $instance);
 
@@ -124,11 +124,10 @@ abstract class Common implements CommonInterface
     }
 
     /**
-     * @param string $instance
-     *
+     * @param string|null $instance
      * @return bool|\RedisCluster|\Redis
      */
-    public function getCache(string $instance = 'default'): bool|\RedisCluster|\Redis
+    public function getCache(?string $instance = 'default'): bool|\RedisCluster|\Redis
     {
         if (!class_exists('Redis')) {
             return false;
@@ -195,10 +194,10 @@ abstract class Common implements CommonInterface
     }
 
     /**
-     * @param string $instance
+     * @param string|null $instance
      * @return void
      */
-    public function closeDatabase(string $instance = 'default'): void
+    public function closeDatabase(?string $instance = 'default'): void
     {
         $instance = (empty($instance) ? 'default' : $instance);
 
@@ -219,9 +218,10 @@ abstract class Common implements CommonInterface
     }
 
     /**
-     * @param string $instance
+     * @param string|null $instance
+     * @return void
      */
-    public function closeCache(string $instance = 'default'): void
+    public function closeCache(?string $instance = 'default'): void
     {
         $instance   = (empty($instance) ? 'default' : $instance);
         $tmp        = explode(':',$instance);
