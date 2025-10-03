@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.7.10](https://github.com/KongHack/Common/releases/tag/2.7.10)
+- @GameCharmer Remove crappy/pasta
+
+
+
 ## [2.7.9](https://github.com/KongHack/Common/releases/tag/2.7.9)
 - @GameCharmer Revert getCaches method change, add `:identifier` support, add closeCache method
 

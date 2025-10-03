@@ -228,18 +228,6 @@ abstract class Common implements CommonInterface
         $instance   = $tmp[0];
         $identifier = isset($tmp[1])?':'.$tmp[1]:'';
 
-
-        if (!isset($this->caches[$instance.$identifier])) {
-            return;
-        }
-
-        $database = $this->caches[$instance.$identifier];
-        if ($database->getController() !== null) {
-            $database->getController()->disconnectAll();
-        } else {
-            $database->disconnect();
-        }
-
         unset($this->caches[$instance.$identifier]);
     }
 
