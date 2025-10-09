@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.7.13](https://github.com/KongHack/Common/releases/tag/2.7.13)
+- @GameCharmer Update `CommonInterface`, implement `getCommonVersion` and `getProjectVersion`
+
+
+
 ## [2.7.12](https://github.com/KongHack/Common/releases/tag/2.7.12)
 - @GameCharmer Update Interfaces
 

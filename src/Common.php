@@ -27,6 +27,9 @@ abstract class Common implements CommonInterface
     protected ?array  $filePaths  = null;
     protected ?array  $webPaths   = null;
 
+    protected static ?string $versionCommon  = null;
+    protected static ?string $versionProject = null;
+
     /**
      * Common constructor.
      */
@@ -303,5 +306,57 @@ abstract class Common implements CommonInterface
         }
 
         return ($sec ? 'https' : 'http').'://'.$base.'/';
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getCommonVersion(): string
+    {
+        if(empty(self::$versionCommon)) {
+            // This file should always exist as it's part of this project
+            $file = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'VERSION';
+            try {
+                self::$versionCommon = \trim(\file_get_contents($file));
+            } catch (Exception) {
+                self::$versionCommon = 'UNDEFINED';
+            }
+        }
+
+        return self::$versionCommon;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProjectVersion(): string
+    {
+        if(empty(self::$versionProject)) {
+            // Our source
+            $file = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
+            // vendor/gcworld folder
+            $file .= '..'.DIRECTORY_SEPARATOR;
+            // vendor folder
+            $file .= '..'.DIRECTORY_SEPARATOR;
+            // should be project root
+            $file .= '..'.DIRECTORY_SEPARATOR;
+            if(!file_exists($file.'VERSION')) {
+                // one more bump, just in case
+                $file .= '..'.DIRECTORY_SEPARATOR;
+            }
+            if(!file_exists($file.'VERSION')) {
+                self::$versionProject = 'COMMON-ONLY:'.$this->getCommonVersion();
+                return self::$versionProject;
+            }
+
+            try {
+                self::$versionProject = \trim(\file_get_contents($file.'VERSION'));
+            } catch (Exception) {
+                self::$versionProject = 'COMMON-ONLY:'.$this->getCommonVersion();
+            }
+        }
+
+        return self::$versionProject;
     }
 }
