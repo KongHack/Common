@@ -328,13 +328,14 @@ abstract class Common implements CommonInterface
     }
 
     /**
+     * @param bool $fresh
      * @return string
      */
-    public function getProjectVersion(): string
+    public function getProjectVersion(bool $fresh = false): string
     {
-        if(empty(self::$versionProject)) {
-            // Our source
-            $file = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
+        if(empty(self::$versionProject) || $fresh) {
+            // Our root
+            $file = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
             // vendor/gcworld folder
             $file .= '..'.DIRECTORY_SEPARATOR;
             // vendor folder
