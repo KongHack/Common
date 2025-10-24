@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.7.15](https://github.com/KongHack/Common/releases/tag/2.7.15)
+- @GameCharmer Update `Database`, remove reference to removed `getController` method
+
+
+
 ## [2.7.14](https://github.com/KongHack/Common/releases/tag/2.7.14)
 - @GameCharmer Update `CommonInterface`, implement `fresh`
 
