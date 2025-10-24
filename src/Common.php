@@ -211,11 +211,7 @@ abstract class Common implements CommonInterface
         }
 
         $database = $this->databases[$instance];
-        if ($database->getController() !== null) {
-            $database->getController()->disconnectAll();
-        } else {
-            $database->disconnect();
-        }
+        $database->disconnect();
 
         unset($this->databases[$instance]);
 
