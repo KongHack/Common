@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.7.18](https://github.com/KongHack/Common/releases/tag/2.7.18)
+- @GameCharmer Update Interfaces
+
+
+
 ## [2.7.17](https://github.com/KongHack/Common/releases/tag/2.7.17)
 - @GameCharmer Clean up common, patch runtime bugs, remove old DB controller, patch up `CommonEnvironmentEnumInterface`
 
