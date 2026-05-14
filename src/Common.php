@@ -2,6 +2,7 @@
 namespace GCWorld\Common;
 
 use Exception;
+use GCWorld\Common\Interfaces\CommonEnvironmentEnumInterface;
 use GCWorld\Database\Controller;
 use GCWorld\Database\Database;
 use GCWorld\Interfaces\CommonInterface;
@@ -59,6 +60,11 @@ abstract class Common implements CommonInterface
     protected function __clone()
     {
     }
+
+    /**
+     * @return CommonEnvironmentEnumInterface
+     */
+    abstract public function getEnvironment(): CommonEnvironmentEnumInterface;
 
     /**
      * @param string $heading
