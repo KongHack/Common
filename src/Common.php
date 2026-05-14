@@ -2,8 +2,8 @@
 namespace GCWorld\Common;
 
 use Exception;
-use GCWorld\Common\Interfaces\CommonEnvironmentEnumInterface;
 use GCWorld\Database\Database;
+use GCWorld\Interfaces\CommonEnvironmentEnumInterface;
 use GCWorld\Interfaces\CommonInterface;
 use GCWorld\Interfaces\Database\DatabaseInterface;
 use PDO;

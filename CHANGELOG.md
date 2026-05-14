@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.7.19](https://github.com/KongHack/Common/releases/tag/2.7.19)
+- @GameCharmer Migrate `CommonEnvironmentEnumInterface`
+
+
+
 ## [2.7.18](https://github.com/KongHack/Common/releases/tag/2.7.18)
 - @GameCharmer Update Interfaces
 

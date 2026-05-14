@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "716248c9ee251d61fa91cbb67bbdde4b",
+    "content-hash": "332a83be379574b9f348a588f5870324",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -866,16 +866,16 @@
         },
         {
             "name": "gcworld/interfaces",
-            "version": "4.4.11",
+            "version": "4.4.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KongHack/Interfaces.git",
-                "reference": "24aa5a7d987030731a7330ed6d7665210f7b6890"
+                "reference": "ccac74708db928fe69592dcc0703a45b2258da19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KongHack/Interfaces/zipball/24aa5a7d987030731a7330ed6d7665210f7b6890",
-                "reference": "24aa5a7d987030731a7330ed6d7665210f7b6890",
+                "url": "https://api.github.com/repos/KongHack/Interfaces/zipball/ccac74708db928fe69592dcc0703a45b2258da19",
+                "reference": "ccac74708db928fe69592dcc0703a45b2258da19",
                 "shasum": ""
             },
             "require": {
@@ -906,9 +906,9 @@
             "description": "GCWorld Interfaces",
             "support": {
                 "issues": "https://github.com/KongHack/Interfaces/issues",
-                "source": "https://github.com/KongHack/Interfaces/tree/4.4.11"
+                "source": "https://github.com/KongHack/Interfaces/tree/4.4.12"
             },
-            "time": "2026-05-14T05:20:24+00:00"
+            "time": "2026-05-14T05:33:35+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
