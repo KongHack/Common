@@ -3,7 +3,6 @@ namespace GCWorld\Common;
 
 use Exception;
 use GCWorld\Common\Interfaces\CommonEnvironmentEnumInterface;
-use GCWorld\Database\Controller;
 use GCWorld\Database\Database;
 use GCWorld\Interfaces\CommonInterface;
 use GCWorld\Interfaces\Database\DatabaseInterface;
@@ -28,8 +27,8 @@ abstract class Common implements CommonInterface
     protected ?array  $filePaths  = null;
     protected ?array  $webPaths   = null;
 
-    protected static ?string $versionCommon  = null;
-    protected static ?string $versionProject = null;
+    protected static array $versionCommon  = [];
+    protected static array $versionProject = [];
 
     /**
      * Common constructor.
@@ -90,46 +89,59 @@ abstract class Common implements CommonInterface
     {
         $instance = (empty($instance) ? 'default' : $instance);
 
-        if (!isset($this->databases[$instance])) {
-            $databases = $this->getConfig('database');
-            if (!array_key_exists($instance, $databases)) {
-                throw new Exception('DB Config Not Found!');
-            }
-            $databaseArray = $databases[$instance];
-            if(isset($databaseArray['alias']) && '' != $databaseArray['alias']) {
-                $this->databases[$instance] = $this->getDatabase($databaseArray['alias']);
-            }
+        return $this->resolveDatabase($instance);
+    }
 
-            // Implement controller!
-            if (isset($databaseArray['controller']) && $databaseArray['controller']) {
-                $controller                 = Controller::getInstance($instance);
-                $this->databases[$instance] = $controller->getDatabase(Controller::IDENTIFIER_READ);
-            } else {
-                $options = [];
-                if(isset($databaseArray['ssl_key'])) {
-                    $options[PDO::MYSQL_ATTR_SSL_KEY] = $databaseArray['ssl_key'];
-                }
-                if(isset($databaseArray['ssl_cert'])) {
-                    $options[PDO::MYSQL_ATTR_SSL_CERT] = $databaseArray['ssl_cert'];
-                }
-                if(isset($databaseArray['ssl_ca'])) {
-                    $options[PDO::MYSQL_ATTR_SSL_CA] = $databaseArray['ssl_ca'];
-                }
-                if(isset($databaseArray['ssl_verify'])) {
-                    $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $databaseArray['ssl_verify'];
-                }
-
-                $database = new Database(
-                    'mysql:charset=utf8mb4;host='.$databaseArray['host'].';dbname='.$databaseArray['name'].
-                    (isset($databaseArray['port']) ? ';port='.$databaseArray['port'] : ''),
-                    $databaseArray['user'],
-                    $databaseArray['pass'],
-                    $options
-                );
-                $database->setDefaults();
-                $this->databases[$instance] = $database;
-            }
+    /**
+     * @param string $instance
+     * @param array<string, bool> $resolving
+     * @return DatabaseInterface
+     * @throws Exception
+     */
+    private function resolveDatabase(string $instance, array $resolving = []): DatabaseInterface
+    {
+        if (isset($this->databases[$instance])) {
+            return $this->databases[$instance];
         }
+        if (isset($resolving[$instance])) {
+            throw new Exception('Circular DB alias detected for instance: '.$instance);
+        }
+        $resolving[$instance] = true;
+
+        $databases = $this->getConfig('database');
+        if (!array_key_exists($instance, $databases)) {
+            throw new Exception('DB Config Not Found!');
+        }
+        $databaseArray = $databases[$instance];
+
+        if (isset($databaseArray['alias']) && $databaseArray['alias'] !== '') {
+            $this->databases[$instance] = $this->resolveDatabase($databaseArray['alias'], $resolving);
+            return $this->databases[$instance];
+        }
+
+        $options = [];
+        if(isset($databaseArray['ssl_key'])) {
+            $options[PDO::MYSQL_ATTR_SSL_KEY] = $databaseArray['ssl_key'];
+        }
+        if(isset($databaseArray['ssl_cert'])) {
+            $options[PDO::MYSQL_ATTR_SSL_CERT] = $databaseArray['ssl_cert'];
+        }
+        if(isset($databaseArray['ssl_ca'])) {
+            $options[PDO::MYSQL_ATTR_SSL_CA] = $databaseArray['ssl_ca'];
+        }
+        if(isset($databaseArray['ssl_verify'])) {
+            $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $databaseArray['ssl_verify'];
+        }
+
+        $database = new Database(
+            'mysql:charset=utf8mb4;host='.$databaseArray['host'].';dbname='.$databaseArray['name'].
+            (isset($databaseArray['port']) ? ';port='.$databaseArray['port'] : ''),
+            $databaseArray['user'],
+            $databaseArray['pass'],
+            $options
+        );
+        $database->setDefaults();
+        $this->databases[$instance] = $database;
 
         return $this->databases[$instance];
     }
@@ -163,37 +175,39 @@ abstract class Common implements CommonInterface
         }
         set_error_handler('\\GCWorld\\ErrorHandlers\\ErrorHandlers::errorHandler');
 
-        if(isset($cacheArray['cluster'])) {
-            $cCluster = new RedisCluster(
-                $instance,
-                $cacheArray['cluster'],
-                $cacheArray['timeout'] ?? null,
-                $cacheArray['readTimeout'] ?? null,
-                $cacheArray['persistent'] ?? false,
-                $cacheArray['auth'] ?? null
-            );
-            $this->caches[$instance.$identifier] = $cCluster;
-            restore_error_handler();
-
-            return $cCluster;
-        }
-
         try {
-            $cache = new Redis();
-            if(isset($cacheArray['persistent']) && $cacheArray['persistent']) {
-                $cache->pconnect(
-                    $cacheArray['host'],
-                    $cacheArray['port'] ?? 6379,
-                    $cacheArray['timeout'] ?? 0,
-                    'redis'.(empty($identifier)?':'.getmypid():$identifier)
+            if(isset($cacheArray['cluster'])) {
+                $cCluster = new RedisCluster(
+                    $instance,
+                    $cacheArray['cluster'],
+                    $cacheArray['timeout'] ?? null,
+                    $cacheArray['readTimeout'] ?? null,
+                    $cacheArray['persistent'] ?? false,
+                    $cacheArray['auth'] ?? null
                 );
-            } else {
-                $cache->connect($cacheArray['host'], $cacheArray['port'] ?? 6379);
+                $this->caches[$instance.$identifier] = $cCluster;
+
+                return $cCluster;
             }
-        } catch (\ErrorException) {
-            $cache = null;
+
+            try {
+                $cache = new Redis();
+                if(isset($cacheArray['persistent']) && $cacheArray['persistent']) {
+                    $cache->pconnect(
+                        $cacheArray['host'],
+                        $cacheArray['port'] ?? 6379,
+                        $cacheArray['timeout'] ?? 0,
+                        'redis'.(empty($identifier)?':'.getmypid():$identifier)
+                    );
+                } else {
+                    $cache->connect($cacheArray['host'], $cacheArray['port'] ?? 6379);
+                }
+            } catch (\ErrorException) {
+                $cache = null;
+            }
+        } finally {
+            restore_error_handler();
         }
-        restore_error_handler();
 
         if($cache && isset($cacheArray['auth'])){
             $cache->auth($cacheArray['auth']);
@@ -294,8 +308,8 @@ abstract class Common implements CommonInterface
         }
 
         // Remove the WWW
-        if (str_starts_with($base, 'www')) {
-            $base = str_replace('www.', '', $base);
+        if (str_starts_with($base, 'www.')) {
+            $base = substr($base, 4);
         }
 
         $sec = false;
@@ -316,17 +330,19 @@ abstract class Common implements CommonInterface
      */
     public function getCommonVersion(): string
     {
-        if(empty(self::$versionCommon)) {
+        $class = static::class;
+
+        if(empty(self::$versionCommon[$class])) {
             // This file should always exist as it's part of this project
             $file = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'VERSION';
             try {
-                self::$versionCommon = \trim(\file_get_contents($file));
+                self::$versionCommon[$class] = \trim(\file_get_contents($file));
             } catch (Exception) {
-                self::$versionCommon = 'UNDEFINED';
+                self::$versionCommon[$class] = 'UNDEFINED';
             }
         }
 
-        return self::$versionCommon;
+        return self::$versionCommon[$class];
     }
 
     /**
@@ -335,7 +351,9 @@ abstract class Common implements CommonInterface
      */
     public function getProjectVersion(bool $fresh = false): string
     {
-        if(empty(self::$versionProject) || $fresh) {
+        $class = static::class;
+
+        if(empty(self::$versionProject[$class]) || $fresh) {
             // Our root
             $file = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
             // vendor/gcworld folder
@@ -349,17 +367,17 @@ abstract class Common implements CommonInterface
                 $file .= '..'.DIRECTORY_SEPARATOR;
             }
             if(!file_exists($file.'VERSION')) {
-                self::$versionProject = 'COMMON-ONLY:'.$this->getCommonVersion();
-                return self::$versionProject;
+                self::$versionProject[$class] = 'COMMON-ONLY:'.$this->getCommonVersion();
+                return self::$versionProject[$class];
             }
 
             try {
-                self::$versionProject = \trim(\file_get_contents($file.'VERSION'));
+                self::$versionProject[$class] = \trim(\file_get_contents($file.'VERSION'));
             } catch (Exception) {
-                self::$versionProject = 'COMMON-ONLY:'.$this->getCommonVersion();
+                self::$versionProject[$class] = 'COMMON-ONLY:'.$this->getCommonVersion();
             }
         }
 
-        return self::$versionProject;
+        return self::$versionProject[$class];
     }
 }

@@ -1,10 +1,16 @@
 <?php
 namespace GCWorld\Common\Interfaces;
 
+use GCWorld\Interfaces\BackedEnumWithTextInterface;
+
 /**
  * CommonEnvironmentEnumInterface Interface
  */
-interface CommonEnvironmentEnumInterface extends \BackedEnum
+interface CommonEnvironmentEnumInterface extends BackedEnumWithTextInterface
 {
-    public function getName(): string;
+    /**
+     * Useful for identifying CI/CD environments
+     * @return bool
+     */
+    public function isCI(): bool;
 }
