@@ -82,4 +82,4 @@ Included config files are also supported through the YAML `includes` section.
 - `getCommonVersion()` reads this library's `VERSION` file.
 
 ## Version
-2.7.19
+2.7.20
