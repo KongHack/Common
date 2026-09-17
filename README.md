@@ -1,5 +1,12 @@
 # GCWorld Common
 
+![Packagist](https://img.shields.io/packagist/dm/gcworld/common.svg)
+![Packagist](https://img.shields.io/packagist/dt/gcworld/common.svg)
+
+![Packagist PHP](https://img.shields.io/packagist/php-v/gcworld/common.svg)
+![Packagist](https://img.shields.io/packagist/v/gcworld/common.svg)
+![GitHub](https://img.shields.io/github/tag/konghack/common.svg)
+
 `gcworld/common` provides shared configuration and service-loading foundations
 for GCWorld applications. It combines YAML-backed configuration with a
 per-application singleton, lazy database and Redis connections, path helpers,
