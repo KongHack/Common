@@ -1,6 +1,8 @@
 parameters:
-	autoload_directories:
-		- %rootDir%/../../../src
+	level: 0
+	paths:
+		- src
+	reportUnmatchedIgnoredErrors: false
 
 	ignoreErrors:
 		- '#Method Redis::*#'
