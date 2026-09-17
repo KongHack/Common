@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/KongHack/Common)
 
+
+
+## [2.8.0](https://github.com/KongHack/Common/releases/tag/2.8.0)
+
 ### Added
 
 - Added GitHub Actions quality checks on PHP 8.4 and 8.5, with tag-driven
