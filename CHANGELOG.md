@@ -4,6 +4,35 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/KongHack/Common)
 
+### Added
+
+- Added GitHub Actions quality checks on PHP 8.4 and 8.5, with tag-driven
+  release creation and release metadata validation.
+- Added weekly Dependabot checks for Composer lockfile and non-major GitHub
+  Actions updates.
+- Added Composer scripts for syntax checks, PHPStan, and the combined quality
+  suite.
+
+### Changed
+
+- Raised static analysis to PHPStan level 6 and upgraded PHPStan to the 2.x
+  release line.
+- Constrained `gcworld/interfaces` to compatible 4.x releases so strict
+  Composer validation can enforce bounded dependencies.
+- Expanded the README with configuration, service-loading, development, and
+  release guidance.
+
+### Fixed
+
+- Corrected included YAML file resolution and parsing, and aligned the example
+  configuration with the `includes` key expected by the loader.
+
+### Removed
+
+- Removed the legacy PHPMD check and configuration, along with its PDepend
+  dependency tree, because PHPMD is no longer part of the production quality
+  workflow.
+
 
 
 ## [2.7.20](https://github.com/KongHack/Common/releases/tag/2.7.20)
@@ -605,4 +634,3 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.0.2](https://github.com/KongHack/Common/releases/tag/2.0.2)
  - @GameCharmer Started ChangeLog
  - @GameCharmer Added Auth support for redis
-

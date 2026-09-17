@@ -12,6 +12,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class CommonConfig
 {
+    /** @var array<string, mixed> */
     protected array  $config = [];
     protected string $configPath;
 
@@ -36,7 +37,7 @@ class CommonConfig
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function getArray(): array
     {
@@ -49,6 +50,8 @@ class CommonConfig
      */
     protected function loadConfig(): void
     {
+        $cacheFile = null;
+
         if(!str_ends_with($this->configPath,'.yml')) {
             throw new Exception('Common Config File must end in .yml');
         }
@@ -69,7 +72,7 @@ class CommonConfig
         $this->processIncludes();
         $this->processResolutions();
 
-        if(self::$cacheConfig && isset($cacheFile)) {
+        if(self::$cacheConfig && $cacheFile !== null) {
             $tmp               = $this->config;
             $tmp['GCINTERNAL'] = [
                 'yaml_mtime' => filemtime($this->configPath),
@@ -126,13 +129,21 @@ class CommonConfig
         if(!isset($this->config['includes']) || !is_array($this->config['includes'])) {
             return;
         }
-        $base = str_replace('config.yml','',$this->config);
+        $base = dirname($this->configPath).DIRECTORY_SEPARATOR;
         foreach($this->config['includes'] as $file) {
+            if (!is_string($file)) {
+                throw new ConfigInclusionException('Config inclusion paths must be strings.');
+            }
+
             if(!file_exists($base.$file)) {
                 throw new ConfigInclusionException('Config Inclusion File Not Found. '.$file);
             }
 
-            $items = Yaml::parseFile($this->configPath);
+            $items = Yaml::parseFile($base.$file);
+            if (!is_array($items)) {
+                throw new ConfigInclusionException('Config Inclusion File Failed to Load. '.$file);
+            }
+
             $this->config = array_replace_recursive($this->config, $items);
         }
 

@@ -3,6 +3,7 @@ namespace GCWorld\Common;
 
 use Exception;
 use GCWorld\Database\Database;
+use GCWorld\ErrorHandlers\ErrorHandlers;
 use GCWorld\Interfaces\CommonEnvironmentEnumInterface;
 use GCWorld\Interfaces\CommonInterface;
 use GCWorld\Interfaces\Database\DatabaseInterface;
@@ -21,13 +22,20 @@ abstract class Common implements CommonInterface
      * @var null|string
      */
     protected ?string $configPath = null;
+    /** @var array<string, mixed>|null */
     protected ?array  $config     = null;
+    /** @var array<string, Redis|RedisCluster|null> */
     protected array   $caches     = [];
+    /** @var array<string, DatabaseInterface> */
     protected array   $databases  = [];
+    /** @var array<string, string>|null */
     protected ?array  $filePaths  = null;
+    /** @var array<string, string>|null */
     protected ?array  $webPaths   = null;
 
+    /** @var array<class-string, string> */
     protected static array $versionCommon  = [];
+    /** @var array<class-string, string> */
     protected static array $versionProject = [];
 
     /**
@@ -67,7 +75,7 @@ abstract class Common implements CommonInterface
 
     /**
      * @param string $heading
-     * @return array
+     * @return array<string, mixed>
      * @throws Exception
      */
     public function getConfig(string $heading): array
@@ -173,7 +181,17 @@ abstract class Common implements CommonInterface
         if (!is_array($cacheArray)) {
             return null;
         }
-        set_error_handler('\\GCWorld\\ErrorHandlers\\ErrorHandlers::errorHandler');
+        set_error_handler(
+            static function (
+                int $errorNumber,
+                string $errorMessage,
+                string $errorFile,
+                int $errorLine
+            ): bool {
+                ErrorHandlers::errorHandler($errorNumber, $errorMessage, $errorFile, $errorLine);
+                return true;
+            }
+        );
 
         try {
             if(isset($cacheArray['cluster'])) {
