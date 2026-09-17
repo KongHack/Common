@@ -3,3 +3,4 @@ src/Generated/*
 vendor/*
 config/config.ini
 config/config.yml
+docker-compose.override.yml
