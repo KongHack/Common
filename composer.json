@@ -9,15 +9,14 @@
   ],
   "require": {
     "php": ">=8.4",
-    "gcworld/errorhandlers":"^1.2.0",
-    "symfony/yaml": "^6.0",
-    "gcworld/interfaces": ">=4.4.12",
-    "gcworld/database": "^2.7.6",
+    "ext-pdo": "*",
     "ext-redis": "*",
-    "ext-pdo": "*"
+    "gcworld/database": "^2.8",
+    "gcworld/errorhandlers": "^1.2",
+    "gcworld/interfaces": ">=4.5",
+    "symfony/yaml": "^6.4"
   },
   "require-dev": {
-    "gcworld/code_sniffer_contrib": "^1.0",
     "phpstan/phpstan": "^1.9",
     "phpmd/phpmd": "^2.8.1"
   },
@@ -28,6 +27,7 @@
   },
   "license":"proprietary",
   "config": {
+    "sort-packages": true,
     "allow-plugins": {
       "composer/installers": true
     }
