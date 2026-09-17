@@ -155,8 +155,9 @@ Copy `docker-compose.override.yml.example` to the ignored
 `docker-compose.override.yml` only when local Composer credentials or SSH keys
 are required inside the container.
 
-The Composer quality suite includes syntax checks and PHPStan level 6 analysis.
-Run them independently with `composer lint` or `composer phpstan`.
+The Composer quality suite includes syntax checks, PHPStan level 6 analysis,
+and PHPUnit regression tests. Run them independently with `composer lint`,
+`composer phpstan`, or `composer test`.
 
 ## Releases
 

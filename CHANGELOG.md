@@ -10,8 +10,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   release creation and release metadata validation.
 - Added weekly Dependabot checks for Composer lockfile and non-major GitHub
   Actions updates.
-- Added Composer scripts for syntax checks, PHPStan, and the combined quality
-  suite.
+- Added Composer scripts for syntax checks, PHPStan, PHPUnit, and the combined
+  quality suite.
+- Added regression coverage for configuration loading, included YAML files,
+  cache behavior, path helpers, singleton isolation, aliases, and versions.
 
 ### Changed
 
@@ -26,6 +28,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Corrected included YAML file resolution and parsing, and aligned the example
   configuration with the `includes` key expected by the loader.
+- Report invalid root configuration and cache files through
+  `ConfigLoadException` instead of leaking property type errors.
 
 ### Removed
 

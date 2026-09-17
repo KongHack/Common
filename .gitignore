@@ -1,4 +1,5 @@
 .idea/*
+.phpunit.cache/
 src/Generated/*
 vendor/*
 config/config.ini

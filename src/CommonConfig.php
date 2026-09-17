@@ -59,13 +59,23 @@ class CommonConfig
         if(self::$cacheConfig) {
             $cacheFile = substr($this->configPath, 0, -3).'php';
             if(\file_exists($cacheFile)) {
-                $this->config = require $cacheFile;
+                $config = require $cacheFile;
+                if (!is_array($config)) {
+                    throw new ConfigLoadException('Config File Failed to Load: '.$cacheFile);
+                }
+
+                $this->config = $config;
                 $this->testConfig();
                 return;
             }
         }
 
-        $this->config = Yaml::parseFile($this->configPath);
+        $config = Yaml::parseFile($this->configPath);
+        if (!is_array($config)) {
+            throw new ConfigLoadException('Config File Failed to Load: '.$this->configPath);
+        }
+
+        $this->config = $config;
         $this->testConfig();
 
         $this->processSort();
