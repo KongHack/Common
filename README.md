@@ -6,7 +6,7 @@ per-application singleton, lazy database and Redis connections, path helpers,
 and package/project version discovery.
 
 ### Version
-2.8.0
+2.8.1
 
 ## Requirements
 

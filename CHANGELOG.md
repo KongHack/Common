@@ -6,6 +6,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.8.1](https://github.com/KongHack/Common/releases/tag/2.8.1)
+
+### Fixed
+
+- Corrected release validation to read the version below the required
+  `### Version` README heading.
+
+
 ## [2.8.0](https://github.com/KongHack/Common/releases/tag/2.8.0)
 
 ### Added

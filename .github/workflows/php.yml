@@ -40,7 +40,7 @@ jobs:
         shell: bash
         run: |
           version="$(tr -d '\r\n' < VERSION)"
-          readme_version="$(awk '/^## Version$/ { getline; print; exit }' README.md)"
+          readme_version="$(awk '/^### Version$/ { getline; print; exit }' README.md)"
 
           if [[ "$version" != "$GITHUB_REF_NAME" ]]; then
             echo "::error::VERSION contains '$version', but the Git tag is '$GITHUB_REF_NAME'."
